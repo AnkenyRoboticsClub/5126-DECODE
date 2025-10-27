@@ -33,17 +33,28 @@ public class GREENBOT extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
         // Declare our motors
         // Make sure your ID's match your configuration
+        
+        /*
+                    ^
+                    |
+            [motor0][motor1]
+            [motor4][motor5]
+            [motor2][motor3]        
+        
+        */
 
-        DcMotor motorFrontLeft = hardwareMap.dcMotor.get("Motor0");
-        DcMotor motorBackLeft = hardwareMap.dcMotor.get("Motor2");
-        DcMotor motorFrontRight = hardwareMap.dcMotor.get("Motor1");
-        DcMotor motorBackRight = hardwareMap.dcMotor.get("Motor3");
+        DcMotor motorFrontLeft = hardwareMap.dcMotor.get("motor0");
+        DcMotor motorBackLeft = hardwareMap.dcMotor.get("motor2");
+        DcMotor motorFrontRight = hardwareMap.dcMotor.get("motor1");
+        DcMotor motorBackRight = hardwareMap.dcMotor.get("motor3");
+        DcMotor motorFlyWheel = hardwareMap.dcMotor.get("motor4");
 
         //Reverse the motors that are reversed
         motorFrontLeft.setDirection(DcMotorSimple.Direction.REVERSE);
         motorBackLeft.setDirection(DcMotorSimple.Direction.REVERSE);
         motorFrontRight.setDirection(DcMotorSimple.Direction.FORWARD);
         motorBackRight.setDirection(DcMotorSimple.Direction.FORWARD);
+        motorFlyWheel.setDirection(DcMotorSimple.Direction.REVERSE);
 
 
         // Retrieve the IMU from the hardware map
@@ -85,6 +96,12 @@ public class GREENBOT extends LinearOpMode {
             //Slow Turn V
             if(gamepad1.left_bumper){
                 rx *= TURN_SPEED;
+            }
+            if(gamepad2.right_trigger > 0.1){
+                motorFlyWheel.setPower(1);
+            }
+            else{
+                motorFlyWheel.setPower(0);
             }
 
             // Denominator is the largest motor power (absolute value) or 1
