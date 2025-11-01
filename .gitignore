@@ -1,0 +1,7 @@
+.vscode/
+.gradle/
+build/
+out/
+bin/
+.DS_Store
+Thumbs.db
