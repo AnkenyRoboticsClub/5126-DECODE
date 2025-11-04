@@ -27,7 +27,7 @@ class AutoDrive {
     }
     //=======================AUTO=====================
     // --- tune these at the top of DriveTrain or near your fields ---
-    static final double TICKS_PER_REV = 537.7;   // set for your motor
+    static final double TICKS_PER_REV = 28;   // set for your motor
     static final double WHEEL_DIAMETER_IN = 3.78;// set for your wheel
     static final double GEAR_RATIO = 1.0;        // output gear ratio to wheel
     
