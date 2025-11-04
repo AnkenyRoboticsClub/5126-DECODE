@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.subsystem.Shooter;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -12,9 +12,9 @@ public class Shooter {
     private final DcMotor intake;
 
     public Shooter(HardwareMap hw) {
-        fly  = hw.dcMotor.get(Constants.M_FLY);
-        kick = hw.servo.get(Constants.S_KICK);
-        intake = hw.dcMotor.get(Constants.M_INTAKE);
+        fly  = hw.dcMotor.get(ShooterConstants.M_FLY);
+        kick = hw.servo.get(ShooterConstants.S_KICK);
+        intake = hw.dcMotor.get(ShooterConstants.M_INTAKE);
 
         // Match the direction you used before so +power = shoot
         fly.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -25,7 +25,7 @@ public class Shooter {
         // Safe default
         fly.setPower(0);
         intake.setPower(0);
-        kick.setPosition(Constants.KICK_RETRACT);
+        kick.setPosition(ShooterConstants.KICK_RETRACT);
     }
 
     // ----- Flywheel controls -----
@@ -34,20 +34,20 @@ public class Shooter {
         if (p < -1) p = -1;
         fly.setPower(p);
     }
-    public void spinUp()  { setFlywheelPower(Constants.FLY_SPEED_SHOOT); }
+    public void spinUp()  { setFlywheelPower(ShooterConstants.FLY_SPEED_SHOOT); }
     public void stop()    { setFlywheelPower(0); }
-    public void intakeFW(){ setFlywheelPower(Constants.FLY_SPEED_REVERSE); }
+    public void intakeFW(){ setFlywheelPower(ShooterConstants.FLY_SPEED_REVERSE); }
     public void intake()  { intake.setPower(1); }
     public void stopIntake() {intake.setPower(0); }
 
     // ----- Kicker controls -----
     public void setKicker(boolean extended) {
-        kick.setPosition(extended ? Constants.KICK_EXTEND : Constants.KICK_RETRACT);
+        kick.setPosition(extended ? ShooterConstants.KICK_EXTEND : ShooterConstants.KICK_RETRACT);
     }
     /** One flick: extend, wait, retract. */
     public void flick(LinearOpMode op) {
         setKicker(true);
-        op.sleep(Constants.KICK_TIME_MS);
+        op.sleep(ShooterConstants.KICK_TIME_MS);
         setKicker(false);
     }
 
