@@ -4,10 +4,10 @@ final class Constants {
     private Constants() {}
 
     // Drive speed scales, power # is from 0 -> 1, 0=0% and 1=100%
-    static final double TURN_SPEED          = 0.5; //Prob should stay the same as default speed, honestly idk
-    static final double MOVING_SPEED_SLOW   = 0.4; 
-    static final double MOVING_SPEED        = 0.8; //Default Speed
-    static final double MOVING_SPEED_FAST   = 1.0; //Usualy max power
+    static final double SLEW_PER_LOOP = 0.06; // change per 20ms; tune 0.03–0.08
+    static final double SPEED_NORMAL  = 0.65;
+    static final double SPEED_FAST    = 0.90;
+    static final double SPEED_SLOW    = 0.40;
 
     // Shooter tuning
     static final double FLY_SPEED_SHOOT   = 1.0;  // forward shoot speed

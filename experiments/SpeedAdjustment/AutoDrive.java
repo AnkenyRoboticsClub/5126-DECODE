@@ -27,15 +27,17 @@ class AutoDrive {
     }
     //=======================AUTO=====================
     // --- tune these at the top of DriveTrain or near your fields ---
-    static final double TICKS_PER_REV = 28;   // set for your motor
-    static final double WHEEL_DIAMETER_IN = 3.78;// set for your wheel
-    static final double GEAR_RATIO = 1.0;        // output gear ratio to wheel
+    static final double TICKS_PER_MOTOR_REV = 28.0;
+    static final double GEAR_RATIO          = 48.0/10.0; // motor/wheel
+    static final double TICKS_PER_WHEEL_REV = TICKS_PER_MOTOR_REV * GEAR_RATIO;
+    static final double WHEEL_DIAMETER_IN   = 3.78;
     
     private double inchesToTicks(double inches) {
         double circumference = Math.PI * WHEEL_DIAMETER_IN;
-        double revs = (inches / circumference) * GEAR_RATIO;
-        return revs * TICKS_PER_REV;
+        double wheelRevs = inches / circumference;
+        return wheelRevs * TICKS_PER_WHEEL_REV;
     }
+
     
     void resetDriveEncoders() {
         for (DcMotor m : new DcMotor[]{fl, fr, bl, br}) {
@@ -63,17 +65,22 @@ class AutoDrive {
         resetDriveEncoders();
         int target = (int)Math.round(Math.abs(inchesToTicks(inches)));
         double dir = Math.signum(inches);
-    
+
         fl.setPower(power * dir);
         fr.setPower(power * dir);
         bl.setPower(power * dir);
         br.setPower(power * dir);
-    
-        while (op.opModeIsActive() && averageAbsTicks() < target) {
+
+        long start = System.currentTimeMillis();
+        long timeoutMs = Math.max(1500, (long)(80 * Math.abs(inches))); // simple heuristic
+
+        while (op.opModeIsActive() && averageAbsTicks() < target &&
+               System.currentTimeMillis() - start < timeoutMs) {
             op.idle();
         }
         stopAll();
-    }
+    }   
+
     
     void driveReverse(){
             fl.setPower(.2);
