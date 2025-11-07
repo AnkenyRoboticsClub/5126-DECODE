@@ -15,6 +15,9 @@ public class GREENBOT extends LinearOpMode {
         drive   = new DriveTrain(hardwareMap);
         imu     = new ImuUtil(hardwareMap);
         shooter = new Shooter(hardwareMap);
+        vision  = new VisionAlign(drive, imu);
+
+        vision.start(hardwareMap);
 
         waitForStart();
         if (isStopRequested()) return;
@@ -54,6 +57,9 @@ public class GREENBOT extends LinearOpMode {
             if (gamepad1.dpad_left)  drive.nudgeLeft();
             if (gamepad1.dpad_up)    drive.nudgeForward();
             if (gamepad1.dpad_down)  drive.nudgeBack();
+
+            // while (A held) { vision.aimAndApproachStepRobotCentric(); }
+            // on stop: vision.stop();
             
             //if (gamepad2.right_bumper && gamepad1.right_bumper) liftRobot();
 
