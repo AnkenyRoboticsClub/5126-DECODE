@@ -39,34 +39,27 @@ final class Constants {
     // IMU name
     static final String IMU = "imu";
 
-
+    // ===================== Limelight 4A (USB-C via FTC SDK) =====================
+    // Name in the RC configuration (Driver Station -> Configure Robot)
+    static final String LL_DEVICE_NAME     = "limelight";  // match your config name
     
-    // ===================== Limelight (AprilTag) =====================
-    // Network — use UDP for simplicity. Change port if you like.
-    // Your sender (on the Limelight or a tiny script) should broadcast CSV: "has,tx,ty,ta"
-    //   has: 1 or 0
-    //   tx:  horizontal offset in degrees (+right)
-    //   ty:  vertical offset (unused here, but we accept it)
-    //   ta:  target area (used as a rough distance proxy)
-    static final int    LL_UDP_PORT         = 5801; // pick a free port
-
-    // Desired stand-off distance expressed as "target area" (tune for your tag + lens)
-    static final double LL_TARGET_AREA      = 8.0;   // set this after you observe ta at your preferred distance
-
-    // Aim & approach gains/limits (start conservative, tune later)
-    static final double LL_K_TURN           = 0.018; // P gain on tx (deg -> turn power)
-    static final double LL_MAX_TURN         = 0.45;
-    static final double LL_MIN_TURN         = 0.06;  // small feed-forward to overcome friction
-
-    static final double LL_K_FORWARD        = 0.020; // P gain on (targetArea - ta)
-    static final double LL_MAX_FORWARD      = 0.35;
-    static final double LL_MIN_FORWARD      = 0.05;
-
-    static final double LL_AIM_TOL_DEG      = 1.5;   // "good enough" aim error
-    static final double LL_APPROACH_TOL_TA  = 0.5;   // how close ta must be to targetArea
-
-    // Safety/timeouts
-    static final double LL_ALIGN_TIMEOUT_S  = 2.0;   // each align attempt max seconds
-    static final double LL_APPROACH_TIMEOUT_S = 2.5; // each approach attempt max seconds
+    // Desired stand-off (use ta as a rough distance proxy). Set after you observe it.
+    static final double LL_TARGET_AREA     = 8.0;
+    
+    // Aim (turn) tuning
+    static final double LL_K_TURN          = 0.018;  // P on tx (deg -> turn power)
+    static final double LL_MAX_TURN        = 0.45;   // clamp
+    static final double LL_MIN_TURN        = 0.06;   // small feed-forward
+    static final double LL_AIM_TOL_DEG     = 1.5;    // "good enough" aim error
+    
+    // Approach (forward) tuning
+    static final double LL_K_FORWARD       = 0.020;  // P on (targetArea - ta)
+    static final double LL_MAX_FORWARD     = 0.35;
+    static final double LL_MIN_FORWARD     = 0.05;
+    static final double LL_APPROACH_TOL_TA = 0.5;    // how close ta must be to targetArea
+    
+    // Auto safety timeouts
+    static final double LL_ALIGN_TIMEOUT_S   = 2.0;
+    static final double LL_APPROACH_TIMEOUT_S= 2.5;
 
 }
