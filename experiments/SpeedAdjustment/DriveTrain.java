@@ -141,4 +141,8 @@ class DriveTrain {
         fl.setPower(-p); fr.setPower( p); bl.setPower( p); br.setPower(-p);
         flCmd = -p; frCmd =  p; blCmd =  p; brCmd = -p;
     }
+
+    void testDrive(){
+        fl.setPower(-.2); fr.setPower( .2); bl.setPower( .2); br.setPower(-.2);
+    }
 }
