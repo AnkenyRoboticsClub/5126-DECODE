@@ -5,6 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
 /*
  * If im being honest, I have 0 clue how this works, you would think
  * after 5 years of FTC I would understand, but ive just been using
@@ -14,13 +15,14 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
  * re-write everything from scratch, who cares, not the robot
  */
 class DriveTrain {
-    private final DcMotor fl, fr, bl, br;
+    public final DcMotorEx fl, fr, bl, br;
+    static final double TICKS_PER_REV = 537.6;
 
     DriveTrain(HardwareMap hw) {
-        fl = hw.dcMotor.get(Constants.M_FL);
-        fr = hw.dcMotor.get(Constants.M_FR);
-        bl = hw.dcMotor.get(Constants.M_BL);
-        br = hw.dcMotor.get(Constants.M_BR);
+        fl = hw.get(DcMotorEx.class, Constants.M_FL);
+        fr = hw.get(DcMotorEx.class, Constants.M_FR);
+        bl = hw.get(DcMotorEx.class, Constants.M_BL);
+        br = hw.get(DcMotorEx.class, Constants.M_BR);
         /*
         vr = hw.dcMotor.get(Constants.M_VR);
         vl = hw.dcMotor.get(Constants.M_VL);
@@ -95,6 +97,19 @@ class DriveTrain {
         bl.setPower(blP);
         fr.setPower(frP);
         br.setPower(brP);
+    }
+    
+    public double getRPM(DcMotorEx motor) {
+        double tps = motor.getVelocity();      // ticks/second
+        if (Double.isNaN(tps)) tps = 0.0;      // safety
+            return (tps * 60.0) / TICKS_PER_REV;   // convert to RPM
+    }
+    
+    void testDrive() {
+        fl.setPower(.2);
+        bl.setPower(.2);
+        fr.setPower(.2);
+        br.setPower(.2);
     }
     
     void stopAll() {
