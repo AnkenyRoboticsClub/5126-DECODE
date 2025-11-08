@@ -4,8 +4,8 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 
-@TeleOp(name="GREEN BOT", group="Linear OpMode")
-public class GREENBOT extends LinearOpMode {
+@TeleOp(name="Test Robot", group="Linear OpMode")
+public class TestRobot extends LinearOpMode {
     private DriveTrain drive;
     private ImuUtil imu;
     private Shooter shooter;
@@ -124,7 +124,7 @@ public class GREENBOT extends LinearOpMode {
                 drive.stopAll();
                 shooter.stop();
                 shooter.stopIntake();
-                
+
                 telemetry.addLine("There has been an error, please restart the robot");
                 telemetry.addLine("And then tell Jayden how you made the error happen :)");
                 telemetry.update();
