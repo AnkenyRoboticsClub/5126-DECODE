@@ -106,10 +106,10 @@ public class TestRobot extends LinearOpMode {
                 telemetry.update();
             }
             else if (option == 3){
-
+                /* 
                 if (gamepad1.a) vision.aimStepRobotCentric();
                 if (gamepad1.b) vision.aimAndApproachStepRobotCentric();
-
+                */
                 telemetry.addLine("Vison System");
                 telemetry.addLine("!!!NOT IMPLEMENTED YET!!!");
                 telemetry.addLine("========================================");
