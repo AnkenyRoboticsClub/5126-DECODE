@@ -107,14 +107,17 @@ public class TestRobot extends LinearOpMode {
             }
             else if (option == 3){
 
+                if (gamepad1.a) vision.aimStepRobotCentric();
+                if (gamepad1.b) vision.aimAndApproachStepRobotCentric();
+
                 telemetry.addLine("Vison System");
                 telemetry.addLine("!!!NOT IMPLEMENTED YET!!!");
                 telemetry.addLine("========================================");
                 telemetry.addLine("Joysticks - ");
                 telemetry.addLine("Left  Trigger  -");
                 telemetry.addLine("Right Trigger  -");
-                telemetry.addLine("Gampad A  -");
-                telemetry.addLine("Gampad B  -");
+                telemetry.addLine("Gampad A  - Turn to center the tag");
+                telemetry.addLine("Gampad B  - Turn + creep forward toward standoff");
                 telemetry.addLine("Gampad X  -");
                 telemetry.addLine("Gampad Y  -");
                 telemetry.addLine("Dpads -");
