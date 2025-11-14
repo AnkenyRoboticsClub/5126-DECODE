@@ -125,8 +125,6 @@ public class TestRobot extends LinearOpMode {
             }
             else if (option == 4){
 
-                drive.driveFieldCentric(x, y, rx, heading, slow, fast, false);
-
                 double testPower = 0.2;
 
                 if (gamepad1.a)  drive.fr.setPower(testPower);
