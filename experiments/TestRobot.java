@@ -40,10 +40,10 @@ public class TestRobot extends LinearOpMode {
             // Detect rising edge (button just pressed)
             if (gamepad1.right_bumper && !prevRightBumper) {
                 option++;
-                if (option > 3) option = 1;
+                if (option > 4) option = 1;
             } else if (gamepad1.left_bumper && !prevLeftBumper) {
                 option--;
-                if (option < 1) option = 3;
+                if (option < 1) option = 4;
             }
         
             prevRightBumper = gamepad1.right_bumper;
@@ -60,10 +60,10 @@ public class TestRobot extends LinearOpMode {
 
                 drive.driveFieldCentric(x, y, rx, heading, slow, fast, false);
 
-                if (gamepad1.dpad_right) drive.nudgeRight();
-                if (gamepad1.dpad_left)  drive.nudgeLeft();
-                if (gamepad1.dpad_up)    drive.nudgeForward();
-                if (gamepad1.dpad_down)  drive.nudgeBack();
+                if (gamepad1.dpad_right) drive.nudgeRight(this);
+                if (gamepad1.dpad_left)  drive.nudgeLeft(this);
+                if (gamepad1.dpad_up)    drive.nudgeForward(this);
+                if (gamepad1.dpad_down)  drive.nudgeBack(this);
 
                 if (gamepad1.a) drive.testDrive();
 
@@ -90,7 +90,7 @@ public class TestRobot extends LinearOpMode {
                 if (gamepad1.b) shooter.intake();
                 else            shooter.stopIntake();
 
-                if (gamepad2.a) shooter.feedOne(this);
+                if (gamepad1.a) shooter.feedOne(this);
 
 
                 telemetry.addLine("Shooting System");
@@ -121,6 +121,43 @@ public class TestRobot extends LinearOpMode {
                 telemetry.addLine("Gampad X  -");
                 telemetry.addLine("Gampad Y  -");
                 telemetry.addLine("Dpads -");
+                telemetry.update();
+            }
+            else if (option == 4){
+
+                drive.driveFieldCentric(x, y, rx, heading, slow, fast, false);
+
+                double testPower = 0.2;
+
+                if (gamepad1.a)  drive.fr.setPower(testPower);
+                else             drive.fr.setPower(0);
+
+                if (gamepad1.b)  drive.br.setPower(testPower);
+                else             drive.br.setPower(0);
+
+                if (gamepad1.x)  drive.fl.setPower(testPower);
+                else             drive.fl.setPower(0);
+
+                if (gamepad1.y)  drive.bl.setPower(testPower);
+                else             drive.bl.setPower(0);
+
+                if (gamepad1.dpad_up)    shooter.spinUp()
+                else                     shooter.stop();    
+
+                if (gamepad1.dpad_down)  shooter.intake();
+                else                     shooter.stopIntake();
+
+
+                telemetry.addLine("Motor Test");
+                telemetry.addLine("========================================");
+                telemetry.addLine("Joysticks - Left: Forward & Backward Right: Turning");
+                telemetry.addLine("Left  Trigger  -");
+                telemetry.addLine("Right Trigger  -");
+                telemetry.addLine("Gampad A  - Front Right");
+                telemetry.addLine("Gampad B  - Back Right");
+                telemetry.addLine("Gampad X  - Front Left");
+                telemetry.addLine("Gampad Y  - Back Left");
+                telemetry.addLine("Dpads - ^ Shooter | v Intake");
                 telemetry.update();
             }
             else{
