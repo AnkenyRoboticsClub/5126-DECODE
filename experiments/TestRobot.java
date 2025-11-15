@@ -139,7 +139,7 @@ public class TestRobot extends LinearOpMode {
                 if (gamepad1.y)  drive.bl.setPower(testPower);
                 else             drive.bl.setPower(0);
 
-                if (gamepad1.dpad_up)    shooter.spinUp()
+                if (gamepad1.dpad_up)    shooter.spinUp();
                 else                     shooter.stop();    
 
                 if (gamepad1.dpad_down)  shooter.intake();
