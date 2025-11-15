@@ -23,7 +23,8 @@ public class Shooting1 extends LinearOpMode {
         //drive.driveStraightInches(this, 1.0, 0.25);               // forward 24 inches
         //drive.turnToHeadingDegrees(this, imu, 180.0, 0.5, 0.015); // face 180°
         drive.driveReverse();
-        sleep(100);
+        sleep(1000);
+        drive.stopAll();
         shooter.spinUp();
         sleep(1500);
         shooter.feedOne(this);

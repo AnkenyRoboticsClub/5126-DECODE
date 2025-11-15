@@ -17,7 +17,7 @@ class AutoDrive {
 
         // Directions (match your original)
         fl.setDirection(DcMotorSimple.Direction.REVERSE);
-        bl.setDirection(DcMotorSimple.Direction.REVERSE);
+        bl.setDirection(DcMotorSimple.Direction.FORWARD);
         fr.setDirection(DcMotorSimple.Direction.FORWARD);
         br.setDirection(DcMotorSimple.Direction.FORWARD);
 
@@ -76,10 +76,10 @@ class AutoDrive {
     }
     
     void driveReverse(){
-            fl.setPower(.2);
-            bl.setPower(.2);
-            fr.setPower(.2);
-            br.setPower(.2);
+            fl.setPower(-.5);
+            bl.setPower(-.5);
+            fr.setPower(-.5);
+            br.setPower(-.5);
     }
     
     /** Turn in place to an absolute heading (deg, -180..180) using IMU (simple P). */

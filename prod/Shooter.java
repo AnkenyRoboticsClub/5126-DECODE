@@ -20,7 +20,7 @@ public class Shooter {
         fly.setDirection(DcMotorSimple.Direction.REVERSE);
         fly.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         
-        intake.setDirection(DcMotorSimple.Direction.REVERSE);
+        intake.setDirection(DcMotorSimple.Direction.FORWARD);
 
         // Safe default
         fly.setPower(0);
