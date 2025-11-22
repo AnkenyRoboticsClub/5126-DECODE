@@ -38,4 +38,33 @@ final class Constants {
 
     // IMU name
     static final String IMU = "imu";
+
+    // -------------------- LIMELIGHT CONSTANTS --------------------
+
+    // Device name from RC config
+    public static final String LL_DEVICE_NAME = "limelight";
+
+    // Tuning multipliers
+    public static final double LL_K_TURN      = 0.035;   // turning gain
+    public static final double LL_K_FORWARD   = 0.25;    // forward gain
+
+    // Minimum motor power so robot “breaks static friction”
+    public static final double LL_MIN_TURN    = 0.10;
+    public static final double LL_MIN_FORWARD = 0.10;
+
+    // Maximum motor speeds for LL control
+    public static final double LL_MAX_TURN    = 0.5;
+    public static final double LL_MAX_FORWARD = 0.35;
+
+    // TA value when robot is at perfect shooting distance
+// ★ YOU MUST UPDATE THIS using LLDebug ★
+    public static double LL_TARGET_AREA = 1.45;
+
+    // Tolerances for stopping
+    public static final double LL_AIM_TOL_DEG      = 1.5;
+    public static final double LL_APPROACH_TOL_TA  = 0.05;
+
+    // Auto alignment timeouts
+    public static final double LL_ALIGN_TIMEOUT_S    = 2.0;
+    public static final double LL_APPROACH_TIMEOUT_S = 3.0;
 }
