@@ -3,8 +3,8 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
-@Autonomous(name = "LL Shoot 1", group = "Auto")
-public class LimeLightAuto extends LinearOpMode {
+@Autonomous(name = "LL 2 Ball", group = "Auto")
+public class Ball2AutoTest extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -51,6 +51,15 @@ public class LimeLightAuto extends LinearOpMode {
         // ---------------------------
         shooter.spinUp();
         sleep(800);            // wait for flywheel to stabilize
+
+        shooter.feedOne(this);
+
+        // ---------------------------
+        // 5. INTAKE 2nd ball into fly wheel
+        // ---------------------------
+
+        shooter.intake();
+        sleep(3000);
 
         shooter.feedOne(this);
 
