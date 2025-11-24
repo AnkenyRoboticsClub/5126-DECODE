@@ -90,11 +90,18 @@ public class LLMotifAuto extends LinearOpMode {
             //Get Far Row
         }
         else if (motif == "PGP"){
-            //Get Middle Row
+            //Get Middle
         }
         else if (motif == "PPG"){
             //Get Near Row
         }
+
+        shooter.intake();
+        //drive.driveStraightInches(12);
+        //drive.driveStraightInches(-12);
+
+        //Go back to shoot
+
 
 
         drive.stopAll();
