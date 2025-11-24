@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.hardware.limelightvision.LLResult;
+import com.qualcomm.hardware.limelightvision.LLResultTypes;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
@@ -127,6 +128,12 @@ public class TestRobot extends LinearOpMode {
                 } else {
                     telemetry.addLine("VISION SYSTEM (LL DEBUG)");
                     telemetry.addData("VALID", false);
+                }
+
+                if (r != null && r.isValid()) {
+                    for (LLResultTypes.FiducialResult f : r.getFiducialResults()) {
+                        telemetry.addData("Tag Seen", f.getFiducialId());
+                    }
                 }
 
                 if (gamepad1.a) vision.aimStepRobotCentric();

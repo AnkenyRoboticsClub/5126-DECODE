@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.hardware.limelightvision.LLResult;
 import com.qualcomm.hardware.limelightvision.Limelight3A;
+import com.qualcomm.hardware.limelightvision.LLResultTypes.FiducialResult;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -80,6 +81,35 @@ public class VisionAlign {
         }
         drive.stopAll();
         return true;
+    }
+
+    public int getTagId() {
+        LLResult r = latest();
+        if (r == null || !r.isValid()) return -1;
+
+        // Get list of fiducial (AprilTag) detections
+        java.util.List<FiducialResult> tags = r.getFiducialResults();
+
+        if (tags == null || tags.isEmpty()) {
+            return -1;  // No tags detected
+        }
+
+        // Return ID of the first (main) tag
+        return tags.get(0).getFiducialId();
+    }
+
+    public String motifFromTag(int id) {
+        switch (id) {
+            case 21: return "GPP";
+            case 22: return "PGP";
+            case 23: return "PPG";
+            default: return "UNKNOWN";
+        }
+    }
+
+    public String scanMotif() {
+        int id = getTagId();
+        return motifFromTag(id);
     }
 
     // ---------------------------- Math Helpers ----------------------------
