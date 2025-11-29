@@ -11,7 +11,7 @@ class ImuUtil {
 
     //Make sure to tune the directions when you move the control hub
     ImuUtil(HardwareMap hw) {
-        imu = hw.get(IMU.class, Constants.IMU);
+        imu = hw.get(IMU.class, RobotConstants.IMU);
         params = new IMU.Parameters(new RevHubOrientationOnRobot(
                 RevHubOrientationOnRobot.LogoFacingDirection.LEFT,
                 RevHubOrientationOnRobot.UsbFacingDirection.FORWARD

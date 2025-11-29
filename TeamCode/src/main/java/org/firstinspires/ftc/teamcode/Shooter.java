@@ -12,9 +12,9 @@ public class Shooter {
     private final DcMotor intake;
 
     public Shooter(HardwareMap hw) {
-        fly  = hw.dcMotor.get(Constants.M_FLY);
-        kick = hw.servo.get(Constants.S_KICK);
-        intake = hw.dcMotor.get(Constants.M_INTAKE);
+        fly  = hw.dcMotor.get(RobotConstants.M_FLY);
+        kick = hw.servo.get(RobotConstants.S_KICK);
+        intake = hw.dcMotor.get(RobotConstants.M_INTAKE);
 
         // Match the direction you used before so +power = shoot
         fly.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -25,7 +25,7 @@ public class Shooter {
         // Safe default
         fly.setPower(0);
         intake.setPower(0);
-        kick.setPosition(Constants.KICK_RETRACT);
+        kick.setPosition(RobotConstants.KICK_RETRACT);
     }
 
     // ----- Flywheel controls -----
@@ -34,20 +34,20 @@ public class Shooter {
         if (p < -1) p = -1;
         fly.setPower(p);
     }
-    public void spinUp()  { setFlywheelPower(Constants.FLY_SPEED_SHOOT); }
+    public void spinUp()  { setFlywheelPower(RobotConstants.FLY_SPEED_SHOOT); }
     public void stop()    { setFlywheelPower(0); }
-    public void intakeFW(){ setFlywheelPower(Constants.FLY_SPEED_REVERSE); }
+    public void intakeFW(){ setFlywheelPower(RobotConstants.FLY_SPEED_REVERSE); }
     public void intake()  { intake.setPower(1); }
     public void stopIntake() {intake.setPower(0); }
 
     // ----- Kicker controls -----
     public void setKicker(boolean extended) {
-        kick.setPosition(extended ? Constants.KICK_EXTEND : Constants.KICK_RETRACT);
+        kick.setPosition(extended ? RobotConstants.KICK_EXTEND : RobotConstants.KICK_RETRACT);
     }
     /** One flick: extend, wait, retract. */
     public void flick(LinearOpMode op) {
         setKicker(true);
-        op.sleep(Constants.KICK_TIME_MS);
+        op.sleep(RobotConstants.KICK_TIME_MS);
         setKicker(false);
     }
 

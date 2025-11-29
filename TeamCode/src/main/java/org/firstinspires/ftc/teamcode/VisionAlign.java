@@ -19,7 +19,7 @@ public class VisionAlign {
     }
 
     public void start(HardwareMap hw) {
-        limelight = hw.get(Limelight3A.class, Constants.LL_DEVICE_NAME);
+        limelight = hw.get(Limelight3A.class, RobotConstants.LL_DEVICE_NAME);
 
         limelight.setPollRateHz(100);
         limelight.start();
@@ -45,7 +45,7 @@ public class VisionAlign {
 
         double turn = turnCmd(r.getTx());
         drive.driveRobot(0, 0, turn);
-        return Math.abs(r.getTx()) <= Constants.LL_AIM_TOL_DEG;
+        return Math.abs(r.getTx()) <= RobotConstants.LL_AIM_TOL_DEG;
     }
 
     public boolean aimAndApproachStepRobotCentric() {
@@ -65,7 +65,7 @@ public class VisionAlign {
 
     public boolean aimUntil(LinearOpMode op) {
         ElapsedTime t = new ElapsedTime();
-        while (op.opModeIsActive() && t.seconds() < Constants.LL_ALIGN_TIMEOUT_S) {
+        while (op.opModeIsActive() && t.seconds() < RobotConstants.LL_ALIGN_TIMEOUT_S) {
             if (aimStepRobotCentric()) break;
             op.idle();
         }
@@ -75,7 +75,7 @@ public class VisionAlign {
 
     public boolean aimAndApproachUntil(LinearOpMode op) {
         ElapsedTime t = new ElapsedTime();
-        while (op.opModeIsActive() && t.seconds() < Constants.LL_APPROACH_TIMEOUT_S) {
+        while (op.opModeIsActive() && t.seconds() < RobotConstants.LL_APPROACH_TIMEOUT_S) {
             if (aimAndApproachStepRobotCentric()) break;
             op.idle();
         }
@@ -115,25 +115,25 @@ public class VisionAlign {
     // ---------------------------- Math Helpers ----------------------------
 
     private static double turnCmd(double tx) {
-        if (Math.abs(tx) <= Constants.LL_AIM_TOL_DEG) return 0;
+        if (Math.abs(tx) <= RobotConstants.LL_AIM_TOL_DEG) return 0;
 
-        double u = Constants.LL_K_TURN * tx;
-        u += Math.signum(u) * Constants.LL_MIN_TURN;
-        return clamp(u, -Constants.LL_MAX_TURN, Constants.LL_MAX_TURN);
+        double u = RobotConstants.LL_K_TURN * tx;
+        u += Math.signum(u) * RobotConstants.LL_MIN_TURN;
+        return clamp(u, -RobotConstants.LL_MAX_TURN, RobotConstants.LL_MAX_TURN);
     }
 
     private static double forwardCmd(double ta) {
-        double err = Constants.LL_TARGET_AREA - ta;
-        if (Math.abs(err) <= Constants.LL_APPROACH_TOL_TA) return 0;
+        double err = RobotConstants.LL_TARGET_AREA - ta;
+        if (Math.abs(err) <= RobotConstants.LL_APPROACH_TOL_TA) return 0;
 
-        double u = Constants.LL_K_FORWARD * err;
-        u += Math.signum(u) * Constants.LL_MIN_FORWARD;
-        return clamp(u, -Constants.LL_MAX_FORWARD, Constants.LL_MAX_FORWARD);
+        double u = RobotConstants.LL_K_FORWARD * err;
+        u += Math.signum(u) * RobotConstants.LL_MIN_FORWARD;
+        return clamp(u, -RobotConstants.LL_MAX_FORWARD, RobotConstants.LL_MAX_FORWARD);
     }
 
     private static boolean onTarget(double tx, double ta) {
-        return Math.abs(tx) <= Constants.LL_AIM_TOL_DEG &&
-                ta >= Constants.LL_TARGET_AREA - Constants.LL_APPROACH_TOL_TA;
+        return Math.abs(tx) <= RobotConstants.LL_AIM_TOL_DEG &&
+                ta >= RobotConstants.LL_TARGET_AREA - RobotConstants.LL_APPROACH_TOL_TA;
     }
 
     private static double clamp(double v, double lo, double hi) {

@@ -1,7 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -10,10 +9,10 @@ class AutoDrive {
     private final DcMotor fl, fr, bl, br;
 
     AutoDrive(HardwareMap hw) {
-        fl = hw.dcMotor.get(Constants.M_FL);
-        fr = hw.dcMotor.get(Constants.M_FR);
-        bl = hw.dcMotor.get(Constants.M_BL);
-        br = hw.dcMotor.get(Constants.M_BR);
+        fl = hw.dcMotor.get(RobotConstants.M_FL);
+        fr = hw.dcMotor.get(RobotConstants.M_FR);
+        bl = hw.dcMotor.get(RobotConstants.M_BL);
+        br = hw.dcMotor.get(RobotConstants.M_BR);
 
         // Directions (match your original)
         fl.setDirection(DcMotorSimple.Direction.REVERSE);

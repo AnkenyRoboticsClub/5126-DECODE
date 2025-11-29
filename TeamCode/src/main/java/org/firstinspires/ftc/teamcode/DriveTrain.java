@@ -1,7 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -19,10 +18,10 @@ class DriveTrain {
     static final double TICKS_PER_REV = 537.6;
 
     DriveTrain(HardwareMap hw) {
-        fl = hw.get(DcMotorEx.class, Constants.M_FL);
-        fr = hw.get(DcMotorEx.class, Constants.M_FR);
-        bl = hw.get(DcMotorEx.class, Constants.M_BL);
-        br = hw.get(DcMotorEx.class, Constants.M_BR);
+        fl = hw.get(DcMotorEx.class, RobotConstants.M_FL);
+        fr = hw.get(DcMotorEx.class, RobotConstants.M_FR);
+        bl = hw.get(DcMotorEx.class, RobotConstants.M_BL);
+        br = hw.get(DcMotorEx.class, RobotConstants.M_BR);
         /*
         vr = hw.dcMotor.get(Constants.M_VR);
         vl = hw.dcMotor.get(Constants.M_VL);
@@ -58,9 +57,9 @@ class DriveTrain {
         double frP = (rotY - rotX - rx) / denominator;
         double brP = (rotY + rotX - rx) / denominator;
 
-        double scale = Constants.MOVING_SPEED;       // default
-        if (fast) scale = Constants.MOVING_SPEED_FAST;
-        if (slow) scale = Constants.MOVING_SPEED_SLOW;
+        double scale = RobotConstants.MOVING_SPEED;       // default
+        if (fast) scale = RobotConstants.MOVING_SPEED_FAST;
+        if (slow) scale = RobotConstants.MOVING_SPEED_SLOW;
 
         if (rwd){
             bl.setPower(blP * scale);
@@ -74,14 +73,14 @@ class DriveTrain {
         }
     }
 
-    void nudgeLeft(LinearOpMode op)  { nudge(-Constants.SCOOTCH_POWER,  Constants.SCOOTCH_POWER,  Constants.SCOOTCH_POWER, -Constants.SCOOTCH_POWER, op); }
-    void nudgeRight(LinearOpMode op) { nudge( Constants.SCOOTCH_POWER, -Constants.SCOOTCH_POWER, -Constants.SCOOTCH_POWER,  Constants.SCOOTCH_POWER, op); }
-    void nudgeForward(LinearOpMode op){ nudge( Constants.SCOOTCH_POWER,  Constants.SCOOTCH_POWER,  Constants.SCOOTCH_POWER,  Constants.SCOOTCH_POWER, op); }
-    void nudgeBack(LinearOpMode op)  { nudge(-Constants.SCOOTCH_POWER, -Constants.SCOOTCH_POWER, -Constants.SCOOTCH_POWER, -Constants.SCOOTCH_POWER, op); }
+    void nudgeLeft(LinearOpMode op)  { nudge(-RobotConstants.SCOOTCH_POWER,  RobotConstants.SCOOTCH_POWER,  RobotConstants.SCOOTCH_POWER, -RobotConstants.SCOOTCH_POWER, op); }
+    void nudgeRight(LinearOpMode op) { nudge( RobotConstants.SCOOTCH_POWER, -RobotConstants.SCOOTCH_POWER, -RobotConstants.SCOOTCH_POWER,  RobotConstants.SCOOTCH_POWER, op); }
+    void nudgeForward(LinearOpMode op){ nudge( RobotConstants.SCOOTCH_POWER,  RobotConstants.SCOOTCH_POWER,  RobotConstants.SCOOTCH_POWER,  RobotConstants.SCOOTCH_POWER, op); }
+    void nudgeBack(LinearOpMode op)  { nudge(-RobotConstants.SCOOTCH_POWER, -RobotConstants.SCOOTCH_POWER, -RobotConstants.SCOOTCH_POWER, -RobotConstants.SCOOTCH_POWER, op); }
 
     private void nudge(double flP, double frP, double blP, double brP, LinearOpMode op) {
         fl.setPower(flP); fr.setPower(frP); bl.setPower(blP); br.setPower(brP);
-        op.sleep(Constants.SCOOTCH_DURATION_MS);
+        op.sleep(RobotConstants.SCOOTCH_DURATION_MS);
     }
 
     // In DriveTrain.java
@@ -117,10 +116,10 @@ class DriveTrain {
     }
     
     void assistRight(){
-        fl.setPower(Constants.TURN_SPEED); fr.setPower(-Constants.TURN_SPEED); bl.setPower(-Constants.TURN_SPEED); br.setPower(Constants.TURN_SPEED);
+        fl.setPower(RobotConstants.TURN_SPEED); fr.setPower(-RobotConstants.TURN_SPEED); bl.setPower(-RobotConstants.TURN_SPEED); br.setPower(RobotConstants.TURN_SPEED);
     }
     void assistLeft(){
-        fl.setPower(-Constants.TURN_SPEED); fr.setPower(Constants.TURN_SPEED); bl.setPower(Constants.TURN_SPEED); br.setPower(-Constants.TURN_SPEED);
+        fl.setPower(-RobotConstants.TURN_SPEED); fr.setPower(RobotConstants.TURN_SPEED); bl.setPower(RobotConstants.TURN_SPEED); br.setPower(-RobotConstants.TURN_SPEED);
     }
     
     /*

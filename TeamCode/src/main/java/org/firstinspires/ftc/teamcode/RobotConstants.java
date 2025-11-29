@@ -1,7 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
-final class Constants {
-    private Constants() {}
+final class RobotConstants {
+    private RobotConstants() {}
 
     // Drive speed scales, power # is from 0 -> 1, 0=0% and 1=100%
     static final double TURN_SPEED          = 0.7; //Prob should stay the same as default speed, honestly idk
