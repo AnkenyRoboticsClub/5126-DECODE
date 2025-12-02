@@ -1,10 +1,16 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.auto;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
-@Autonomous(name = "LL 2 Ball", group = "Auto")
-public class Ball2AutoTest extends LinearOpMode {
+import org.firstinspires.ftc.teamcode.subsystem.AutoDrive;
+import org.firstinspires.ftc.teamcode.subsystem.DriveTrain;
+import org.firstinspires.ftc.teamcode.subsystem.ImuUtil;
+import org.firstinspires.ftc.teamcode.subsystem.Shooter;
+import org.firstinspires.ftc.teamcode.subsystem.VisionAlign;
+
+@Autonomous(name = "3BallMotif", group = "Auto")
+public class LLMotifAuto extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -64,6 +70,46 @@ public class Ball2AutoTest extends LinearOpMode {
         shooter.feedOne(this);
 
         shooter.stop();
+
+        // ---------------------------
+        // 5. Move to face motif
+        // ---------------------------
+
+        int id = vision.getTagId();
+
+        if (id == 24){
+            drive.aidenTurn();
+            sleep(1000);
+        }
+        else if (id == 20){
+            drive.aidenTurn();
+            sleep(1000);
+        }
+
+
+        // ---------------------------
+        // 5. Get ID of motif
+        // ---------------------------
+
+        String motif = vision.scanMotif();
+        if (motif == "GPP"){
+            //Get Far Row
+        }
+        else if (motif == "PGP"){
+            //Get Middle
+        }
+        else if (motif == "PPG"){
+            //Get Near Row
+        }
+
+        shooter.intake();
+        //drive.driveStraightInches(12);
+        //drive.driveStraightInches(-12);
+
+        //Go back to shoot
+
+
+
         drive.stopAll();
 
         telemetry.addLine("LL Auto Done!");

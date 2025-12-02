@@ -1,14 +1,16 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.subsystem;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
-class AutoDrive {
+import org.firstinspires.ftc.teamcode.common.RobotConstants;
+
+public class AutoDrive {
     private final DcMotor fl, fr, bl, br;
 
-    AutoDrive(HardwareMap hw) {
+    public AutoDrive(HardwareMap hw) {
         fl = hw.dcMotor.get(RobotConstants.M_FL);
         fr = hw.dcMotor.get(RobotConstants.M_FR);
         bl = hw.dcMotor.get(RobotConstants.M_BL);
@@ -36,7 +38,7 @@ class AutoDrive {
         return revs * TICKS_PER_REV;
     }
     
-    void resetDriveEncoders() {
+    public void resetDriveEncoders() {
         for (DcMotor m : new DcMotor[]{fl, fr, bl, br}) {
             m.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
             m.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -44,21 +46,21 @@ class AutoDrive {
         }
     }
     
-    int averageAbsTicks() {
+    public int averageAbsTicks() {
         return (Math.abs(fl.getCurrentPosition()) + Math.abs(fr.getCurrentPosition())
                + Math.abs(bl.getCurrentPosition()) + Math.abs(br.getCurrentPosition())) / 4;
     }
     
-    void stopAll() {
+    public void stopAll() {
         fl.setPower(0); fr.setPower(0); bl.setPower(0); br.setPower(0);
     }
     
-    void aidenTurn(){
+    public void aidenTurn(){
         fl.setPower(.6); fr.setPower(-.4); bl.setPower(-.4); br.setPower(.6);
     }
 
     /** Drive straight (robot-centric) for inches at given power using encoders. */
-    void driveStraightInches(LinearOpMode op, double inches, double power) {
+    public void driveStraightInches(LinearOpMode op, double inches, double power) {
         resetDriveEncoders();
         int target = (int)Math.round(Math.abs(inchesToTicks(inches)));
         double dir = Math.signum(inches);
@@ -74,7 +76,7 @@ class AutoDrive {
         stopAll();
     }
     
-    void driveReverse(){
+    public void driveReverse(){
             fl.setPower(-.5);
             bl.setPower(-.5);
             fr.setPower(-.5);
@@ -82,7 +84,7 @@ class AutoDrive {
     }
     
     /** Turn in place to an absolute heading (deg, -180..180) using IMU (simple P). */
-    void turnToHeadingDegrees(LinearOpMode op, ImuUtil imu, double targetDeg, double maxPower, double kP) {
+    public void turnToHeadingDegrees(LinearOpMode op, ImuUtil imu, double targetDeg, double maxPower, double kP) {
         while (op.opModeIsActive()) {
             double currentDeg = Math.toDegrees(imu.getHeadingRad());
             double error = angleWrapDeg(targetDeg - currentDeg);

@@ -1,10 +1,13 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.subsystem;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
+
+import org.firstinspires.ftc.teamcode.common.RobotConstants;
+
 /*
  * If im being honest, I have 0 clue how this works, you would think
  * after 5 years of FTC I would understand, but ive just been using
@@ -13,11 +16,11 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
  * wichcraft, so modify only if you know what your doing, OR just 
  * re-write everything from scratch, who cares, not the robot
  */
-class DriveTrain {
+public class DriveTrain {
     public final DcMotorEx fl, fr, bl, br;
     static final double TICKS_PER_REV = 537.6;
 
-    DriveTrain(HardwareMap hw) {
+    public DriveTrain(HardwareMap hw) {
         fl = hw.get(DcMotorEx.class, RobotConstants.M_FL);
         fr = hw.get(DcMotorEx.class, RobotConstants.M_FR);
         bl = hw.get(DcMotorEx.class, RobotConstants.M_BL);
@@ -44,7 +47,7 @@ class DriveTrain {
     }
 
     /** Field-centric drive. Inputs x,y,rx are gamepad values; headingRad from IMU. */
-    void driveFieldCentric(double x, double y, double rx, double headingRad,
+    public void driveFieldCentric(double x, double y, double rx, double headingRad,
                            boolean slow, boolean fast, boolean rwd) {
         // Rotate the input vector by -heading (field-oriented)
         double rotX = x * Math.cos(-headingRad) - y * Math.sin(-headingRad);
@@ -73,10 +76,10 @@ class DriveTrain {
         }
     }
 
-    void nudgeLeft(LinearOpMode op)  { nudge(-RobotConstants.SCOOTCH_POWER,  RobotConstants.SCOOTCH_POWER,  RobotConstants.SCOOTCH_POWER, -RobotConstants.SCOOTCH_POWER, op); }
-    void nudgeRight(LinearOpMode op) { nudge( RobotConstants.SCOOTCH_POWER, -RobotConstants.SCOOTCH_POWER, -RobotConstants.SCOOTCH_POWER,  RobotConstants.SCOOTCH_POWER, op); }
-    void nudgeForward(LinearOpMode op){ nudge( RobotConstants.SCOOTCH_POWER,  RobotConstants.SCOOTCH_POWER,  RobotConstants.SCOOTCH_POWER,  RobotConstants.SCOOTCH_POWER, op); }
-    void nudgeBack(LinearOpMode op)  { nudge(-RobotConstants.SCOOTCH_POWER, -RobotConstants.SCOOTCH_POWER, -RobotConstants.SCOOTCH_POWER, -RobotConstants.SCOOTCH_POWER, op); }
+    public void nudgeLeft(LinearOpMode op)  { nudge(-RobotConstants.SCOOTCH_POWER,  RobotConstants.SCOOTCH_POWER,  RobotConstants.SCOOTCH_POWER, -RobotConstants.SCOOTCH_POWER, op); }
+    public void nudgeRight(LinearOpMode op) { nudge( RobotConstants.SCOOTCH_POWER, -RobotConstants.SCOOTCH_POWER, -RobotConstants.SCOOTCH_POWER,  RobotConstants.SCOOTCH_POWER, op); }
+    public void nudgeForward(LinearOpMode op){ nudge( RobotConstants.SCOOTCH_POWER,  RobotConstants.SCOOTCH_POWER,  RobotConstants.SCOOTCH_POWER,  RobotConstants.SCOOTCH_POWER, op); }
+    public void nudgeBack(LinearOpMode op)  { nudge(-RobotConstants.SCOOTCH_POWER, -RobotConstants.SCOOTCH_POWER, -RobotConstants.SCOOTCH_POWER, -RobotConstants.SCOOTCH_POWER, op); }
 
     private void nudge(double flP, double frP, double blP, double brP, LinearOpMode op) {
         fl.setPower(flP); fr.setPower(frP); bl.setPower(blP); br.setPower(brP);
@@ -85,7 +88,7 @@ class DriveTrain {
 
     // In DriveTrain.java
     // Robot-centric arcade for mecanum; same math you use in field-centric but without heading rotation.
-    void driveRobot(double x, double y, double rx) {
+    public void driveRobot(double x, double y, double rx) {
         double denominator = Math.max(Math.abs(y) + Math.abs(x) + Math.abs(rx), 1.0);
         double flP = (y + x + rx) / denominator;
         double blP = (y - x + rx) / denominator;
@@ -104,21 +107,21 @@ class DriveTrain {
             return (tps * 60.0) / TICKS_PER_REV;   // convert to RPM
     }
     
-    void testDrive() {
+    public void testDrive() {
         fl.setPower(.2);
         bl.setPower(.2);
         fr.setPower(.2);
         br.setPower(.2);
     }
     
-    void stopAll() {
+    public void stopAll() {
         fl.setPower(0); fr.setPower(0); bl.setPower(0); br.setPower(0);
     }
     
-    void assistRight(){
+    public void assistRight(){
         fl.setPower(RobotConstants.TURN_SPEED); fr.setPower(-RobotConstants.TURN_SPEED); bl.setPower(-RobotConstants.TURN_SPEED); br.setPower(RobotConstants.TURN_SPEED);
     }
-    void assistLeft(){
+    public void assistLeft(){
         fl.setPower(-RobotConstants.TURN_SPEED); fr.setPower(RobotConstants.TURN_SPEED); bl.setPower(RobotConstants.TURN_SPEED); br.setPower(-RobotConstants.TURN_SPEED);
     }
     

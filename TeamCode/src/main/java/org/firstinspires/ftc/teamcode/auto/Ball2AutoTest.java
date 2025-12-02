@@ -1,10 +1,16 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.auto;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
-@Autonomous(name = "LL Shoot 1", group = "Auto")
-public class LimeLightAuto extends LinearOpMode {
+import org.firstinspires.ftc.teamcode.subsystem.AutoDrive;
+import org.firstinspires.ftc.teamcode.subsystem.DriveTrain;
+import org.firstinspires.ftc.teamcode.subsystem.ImuUtil;
+import org.firstinspires.ftc.teamcode.subsystem.Shooter;
+import org.firstinspires.ftc.teamcode.subsystem.VisionAlign;
+
+@Autonomous(name = "LL 2 Ball", group = "Auto")
+public class Ball2AutoTest extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -51,6 +57,15 @@ public class LimeLightAuto extends LinearOpMode {
         // ---------------------------
         shooter.spinUp();
         sleep(800);            // wait for flywheel to stabilize
+
+        shooter.feedOne(this);
+
+        // ---------------------------
+        // 5. INTAKE 2nd ball into fly wheel
+        // ---------------------------
+
+        shooter.intake();
+        sleep(3000);
 
         shooter.feedOne(this);
 

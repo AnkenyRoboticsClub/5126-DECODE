@@ -1,13 +1,18 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.teleop;
 
 import com.qualcomm.hardware.limelightvision.LLResult;
 import com.qualcomm.hardware.limelightvision.LLResultTypes;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
+import org.firstinspires.ftc.teamcode.subsystem.DriveTrain;
+import org.firstinspires.ftc.teamcode.subsystem.ImuUtil;
+import org.firstinspires.ftc.teamcode.subsystem.Shooter;
+import org.firstinspires.ftc.teamcode.subsystem.VisionAlign;
+
 
 @TeleOp(name="Test Robot", group="Linear OpMode")
-public class TestRobot extends LinearOpMode {
+public class TestSubsystems extends LinearOpMode {
     private DriveTrain drive;
     private ImuUtil imu;
     private Shooter shooter;

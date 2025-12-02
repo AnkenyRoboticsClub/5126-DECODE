@@ -1,8 +1,12 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.teleop;
 
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.hardware.lynx.LynxModule;
+
+import org.firstinspires.ftc.teamcode.subsystem.DriveTrain;
+import org.firstinspires.ftc.teamcode.subsystem.ImuUtil;
+import org.firstinspires.ftc.teamcode.subsystem.Shooter;
 
 
 @TeleOp(name="GREEN BOT", group="Linear OpMode")
