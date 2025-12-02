@@ -2,6 +2,9 @@ repositories {
     mavenCentral()
     google() // Needed for androidx
     maven { url = "https://mymaven.bylazar.com/releases" }
+    maven { url 'https://jitpack.io' }
+    maven { url "https://raw.githubusercontent.com/OutoftheBoxFTC/maven-repo/main" }// Pedro Pathing
+    maven { url 'https://maven.brott.dev' }        // RoadRunner
 }
 
 dependencies {
@@ -17,6 +20,7 @@ dependencies {
     implementation 'com.pedropathing:ftc:2.0.4'
     implementation 'com.pedropathing:telemetry:1.0.0'
     implementation 'com.bylazar:fullpanels:1.0.6'
-
+    compileOnly 'com.acmerobotics.roadrunner:core:1.0.0'
+    annotationProcessor 'com.acmerobotics.roadrunner:core:1.0.0'
 }
 
