@@ -31,6 +31,8 @@ public class RobotConstants {
     public static final String M_FLY = "motor4";//OG4
     public static final String S_KICK = "kickServo";
     public static final String M_INTAKE = "motorI";
+
+    public static final String PINPOINT = "pinpoint";
     
     //ViperCode V
     //public static final String M_VL = "motorVL";
