@@ -56,7 +56,7 @@ public class Ball2AutoTest extends LinearOpMode {
         // 4. SHOOT ONE
         // ---------------------------
         shooter.spinUp();
-        sleep(800);            // wait for flywheel to stabilize
+        sleep(1500);            // wait for flywheel to stabilize
 
         shooter.feedOne(this);
 

@@ -11,7 +11,7 @@ import org.firstinspires.ftc.teamcode.subsystem.Shooter;
 import org.firstinspires.ftc.teamcode.subsystem.VisionAlign;
 
 
-@TeleOp(name="Test Robot", group="Linear OpMode")
+@TeleOp(name="Test Robot", group="Pedro Pathing")
 public class TestSubsystems extends LinearOpMode {
     private DriveTrain drive;
     private ImuUtil imu;
