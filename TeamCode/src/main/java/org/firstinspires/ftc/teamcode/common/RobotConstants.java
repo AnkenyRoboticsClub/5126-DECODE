@@ -51,11 +51,11 @@ public class RobotConstants {
     public static final double LL_K_FORWARD   = 0.25;    // forward gain
 
     // Minimum motor power so robot “breaks static friction”
-    public static final double LL_MIN_TURN    = 0.10;
+    public static final double LL_MIN_TURN    = 0.15;
     public static final double LL_MIN_FORWARD = 0.10;
 
     // Maximum motor speeds for LL control
-    public static final double LL_MAX_TURN    = 0.25;
+    public static final double LL_MAX_TURN    = 0.35;
     public static final double LL_MAX_FORWARD = 0.35;
 
     // TA value when robot is at perfect shooting distance

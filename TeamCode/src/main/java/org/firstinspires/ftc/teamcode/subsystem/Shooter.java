@@ -40,6 +40,7 @@ public class Shooter {
     public void stop()    { setFlywheelPower(0); }
     public void intakeFW(){ setFlywheelPower(RobotConstants.FLY_SPEED_REVERSE); }
     public void intake()  { intake.setPower(1); }
+    public void intakeReverse()  { intake.setPower(-1); }
     public void stopIntake() {intake.setPower(0); }
 
     // ----- Kicker controls -----

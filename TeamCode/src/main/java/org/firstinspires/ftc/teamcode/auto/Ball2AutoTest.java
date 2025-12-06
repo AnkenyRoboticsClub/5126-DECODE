@@ -63,6 +63,8 @@ public class Ball2AutoTest extends LinearOpMode {
         // ---------------------------
         sleep(500);
         shooter.intake();
+        sleep(500);
+        shooter.intakeReverse();
         sleep(3000);
 
         shooter.feedOne(this);
