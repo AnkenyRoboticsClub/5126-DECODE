@@ -19,12 +19,15 @@ Directory structure:
 
     TeamCode/
     │
-    ├── DriveTrain.java
-    ├── AutoDrive.java
-    ├── Constants.java
-    ├── ImuUtil.java
-    ├── Shooter.java
-    ├── VisionAlign.java
+    ├── subsystem/
+    │   ├── DriveTrain.java
+    │   ├── AutoDrive.java
+    │   ├── ImuUtil.java
+    │   ├── Shooter.java
+    │   ├── VisionAlign.java
+    │
+    ├── common/
+    │   └── RobotConstants.java
     │
     ├── TeleOps/
     │   ├── GREENBOT.java
@@ -33,7 +36,15 @@ Directory structure:
     └── Autos/
         ├── Shooting1.java
         ├── LimeLightAuto.java
-        └── DriveOffLine.java
+        ├── DriveOffLine.java
+        ├── Ball2AutoTest.java
+        ├── ExampleAuto.java
+        ├── LLMotifAuto.java
+        └── PedroTeleOp.java
+
+------------------------------------------------------------------------
+
+
 
 Each subsystem manages **one specific part** of the robot.
 OpModes simply **combine** subsystems --- they contain minimal logic.
@@ -304,14 +315,14 @@ OpModes appear under:
 -   [ ] AprilTag ID-based targeting
 -   [ ] PIDF shooter velocity control
 -   [ ] LED driver signals
--   [ ] Limelight-based path adjustments
--   [ ] Multi-shot LL auto
+-   [X] Limelight-based path adjustments
+-   [X] Multi-shot LL auto
 
 ------------------------------------------------------------------------
 
 # 🎉 **Welcome to the Code Team!**
 
-If you need help, ask a senior programmer or check the subsystem code.\
+If you need help, ask a senior programmer or check the subsystem code.
 Everything is clean and documented so you can learn quickly.
 
 Let's build the best robot we can! 💙

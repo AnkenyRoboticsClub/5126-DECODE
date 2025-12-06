@@ -34,17 +34,15 @@ public class Ball2AutoTest extends LinearOpMode {
         // 1. BLIND BACKUP (so LL sees tag)
         // ---------------------------
         drive.driveReverse();     // simple timed reverse
-        sleep(900);    // tune this (700–1200 ms works)
+        sleep(1200);    // tune this (700–1200 ms works)
         drive.stopAll();
-
-        sleep(150); // settle
 
         // ---------------------------
         // 2. AIM TO CENTER TAG
         // ---------------------------
-        vision.aimUntil(this);
+        //vision.aimUntil(this);
 
-        sleep(100);
+        sleep(200);
 
         // ---------------------------
         // 3. BACK UP USING LL TARGET AREA
@@ -63,11 +61,16 @@ public class Ball2AutoTest extends LinearOpMode {
         // ---------------------------
         // 5. INTAKE 2nd ball into fly wheel
         // ---------------------------
-
+        sleep(500);
         shooter.intake();
         sleep(3000);
 
         shooter.feedOne(this);
+
+        // ---------------------------
+        // 5. Move off line
+        // ---------------------------
+
 
         shooter.stop();
         drive.stopAll();

@@ -38,7 +38,7 @@ public class VisionAlign {
 
     // ---------------------------- TeleOp step functions ----------------------------
 
-    public boolean aimStepRobotCentric() {
+    public boolean aimStepRobotCentric() { //rotates the robot to center the tag horizontally
         LLResult r = latest();
         if (r == null || !r.isValid()) {
             drive.stopAll();
@@ -50,7 +50,7 @@ public class VisionAlign {
         return Math.abs(r.getTx()) <= RobotConstants.LL_AIM_TOL_DEG;
     }
 
-    public boolean aimAndApproachStepRobotCentric() {
+    public boolean aimAndApproachStepRobotCentric() { //Try and centers the robot with the Tag and approaches it
         LLResult r = latest();
         if (r == null || !r.isValid()) {
             drive.stopAll();

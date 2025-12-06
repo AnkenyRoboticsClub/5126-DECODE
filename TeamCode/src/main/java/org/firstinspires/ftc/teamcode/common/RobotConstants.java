@@ -55,11 +55,11 @@ public class RobotConstants {
     public static final double LL_MIN_FORWARD = 0.10;
 
     // Maximum motor speeds for LL control
-    public static final double LL_MAX_TURN    = 0.5;
+    public static final double LL_MAX_TURN    = 0.25;
     public static final double LL_MAX_FORWARD = 0.35;
 
     // TA value when robot is at perfect shooting distance
-// ★ YOU MUST UPDATE THIS using LLDebug ★
+    // ★ YOU MUST UPDATE THIS using LLDebug ★
     public static double LL_TARGET_AREA = 1.45;
 
     // Tolerances for stopping
