@@ -60,20 +60,54 @@ public class AutoDrive {
     }
 
     /** Drive straight (robot-centric) for inches at given power using encoders. */
-    public void driveStraightInches(LinearOpMode op, double inches, double power) {
+    public void driveStraightInches(LinearOpMode op, double inches, double maxPower) {
         resetDriveEncoders();
-        int target = (int)Math.round(Math.abs(inchesToTicks(inches)));
-        double dir = Math.signum(inches);
-    
-        fl.setPower(power * dir);
-        fr.setPower(power * dir);
-        bl.setPower(power * dir);
-        br.setPower(power * dir);
-    
-        while (op.opModeIsActive() && averageAbsTicks() < target) {
+
+        // Convert inches → ticks using RobotConstants
+        int targetTicks = (int) Math.round(inches * RobotConstants.TICKS_PER_INCH);
+        double direction = Math.signum(inches);
+
+        maxPower = Math.abs(maxPower) * direction;
+
+        double minPower = 0.12;
+        double accelDist = 0.25;
+        double decelDist = 0.25;
+
+        while (op.opModeIsActive()) {
+
+            int current = averageAbsTicks();
+            int absTarget = Math.abs(targetTicks);
+
+            if (current >= absTarget) break;
+
+            double progress = (double) current / absTarget;
+
+            double commandedPower;
+
+            if (progress < accelDist) {
+                double scale = progress / accelDist;
+                commandedPower = lerp(minPower, maxPower, scale);
+            }
+            else if (progress < 1.0 - decelDist) {
+                commandedPower = maxPower;
+            }
+            else {
+                double scale = (1.0 - progress) / decelDist;
+                commandedPower = lerp(minPower, maxPower, scale);
+            }
+
+            fl.setPower(commandedPower);
+            fr.setPower(commandedPower);
+            bl.setPower(commandedPower);
+            br.setPower(commandedPower);
+
             op.idle();
         }
         stopAll();
+    }
+
+    private double lerp(double a, double b, double t) {
+        return a + (b - a) * t;
     }
     
     public void driveReverse(){

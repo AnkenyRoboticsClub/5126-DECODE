@@ -33,8 +33,10 @@ public class Ball2AutoTest extends LinearOpMode {
         // ---------------------------
         // 1. BLIND BACKUP (so LL sees tag)
         // ---------------------------
-        drive.driveReverse();     // simple timed reverse
-        sleep(1200);    // tune this (700–1200 ms works)
+        //drive.driveReverse();      simple timed reverse
+        // OR
+        drive.driveStraightInches(this, -10, 0.5);//If the correct shooting distance is 10in away
+        //sleep(1200);    // tune this (700–1200 ms works)
         drive.stopAll();
 
         // ---------------------------
