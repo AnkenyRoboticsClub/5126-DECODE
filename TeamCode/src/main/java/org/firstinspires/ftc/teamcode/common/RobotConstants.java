@@ -41,6 +41,21 @@ public class RobotConstants {
     // IMU name
     public static final String IMU = "imu";
 
+    public static final double TICKS_PER_MOTOR_REV = 28.0 * 4.0; // = 112
+    public static final double GEAR_RATIO = 48.0 / 10.0;  // 4.8 : 1
+    public static final double WHEEL_DIAMETER_IN = 4.0944882; //or 104mm i think
+    public static final double WHEEL_CIRCUMFERENCE_IN =
+            Math.PI * WHEEL_DIAMETER_IN;
+    public static final double TICKS_PER_INCH =
+            (TICKS_PER_MOTOR_REV * GEAR_RATIO) / WHEEL_CIRCUMFERENCE_IN;
+    public static int inchesToTicks(double inches) {
+        return (int) Math.round(inches * TICKS_PER_INCH);
+    }
+
+
+
+
+
     // -------------------- LIMELIGHT CONSTANTS --------------------
 
     // Device name from RC config
