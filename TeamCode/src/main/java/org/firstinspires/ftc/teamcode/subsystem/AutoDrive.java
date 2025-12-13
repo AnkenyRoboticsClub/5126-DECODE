@@ -17,10 +17,10 @@ public class AutoDrive {
         br = hw.dcMotor.get(RobotConstants.M_BR);
 
         // Directions (match your original)
-        fl.setDirection(DcMotorSimple.Direction.REVERSE);
+        fl.setDirection(DcMotorSimple.Direction.FORWARD);
         bl.setDirection(DcMotorSimple.Direction.FORWARD);
-        fr.setDirection(DcMotorSimple.Direction.FORWARD);
-        br.setDirection(DcMotorSimple.Direction.FORWARD);
+        fr.setDirection(DcMotorSimple.Direction.REVERSE);
+        br.setDirection(DcMotorSimple.Direction.REVERSE);
 
         for (DcMotor m : new DcMotor[]{fl, fr, bl, br}) {
             m.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -77,10 +77,10 @@ public class AutoDrive {
     }
     
     public void driveReverse(){
-            fl.setPower(-.5);
-            bl.setPower(-.5);
-            fr.setPower(-.5);
-            br.setPower(-.5);
+            fl.setPower(.5);
+            bl.setPower(.5);
+            fr.setPower(.5);
+            br.setPower(.5);
     }
     
     /** Turn in place to an absolute heading (deg, -180..180) using IMU (simple P). */
