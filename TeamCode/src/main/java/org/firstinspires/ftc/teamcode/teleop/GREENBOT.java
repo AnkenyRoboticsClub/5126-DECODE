@@ -7,6 +7,7 @@ import com.qualcomm.hardware.lynx.LynxModule;
 import org.firstinspires.ftc.teamcode.subsystem.DriveTrain;
 import org.firstinspires.ftc.teamcode.subsystem.ImuUtil;
 import org.firstinspires.ftc.teamcode.subsystem.Shooter;
+import org.firstinspires.ftc.teamcode.subsystem.VisionAlign;
 
 
 @TeleOp(name="GREEN BOT", group="Linear OpMode")
@@ -14,13 +15,15 @@ public class GREENBOT extends LinearOpMode {
     private DriveTrain drive;
     private ImuUtil imu;
     private Shooter shooter;
+    private VisionAlign vision;
 
     @Override
     public void runOpMode() {
         drive   = new DriveTrain(hardwareMap);
         imu     = new ImuUtil(hardwareMap);
         shooter = new Shooter(hardwareMap);
-        
+        vision  = new VisionAlign(drive, imu);
+
         for (LynxModule hub : hardwareMap.getAll(LynxModule.class)) {
             hub.setBulkCachingMode(LynxModule.BulkCachingMode.AUTO);
         }
@@ -60,7 +63,7 @@ public class GREENBOT extends LinearOpMode {
 
             if (gamepad2.a) shooter.feedOne(this); // extend + retract
             
-            if (gamepad1.a) drive.testDrive();
+            if (gamepad1.a) vision.aimAndApproachStepRobotCentric();
             /*
             if (gamepad1.dpad_right) drive.nudgeRight();
             if (gamepad1.dpad_left)  drive.nudgeLeft();
