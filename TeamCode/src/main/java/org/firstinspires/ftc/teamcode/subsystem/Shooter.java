@@ -37,6 +37,7 @@ public class Shooter {
         fly.setPower(p);
     }
     public void spinUp()  { setFlywheelPower(RobotConstants.FLY_SPEED_SHOOT); }
+    public void closeFW() { setFlywheelPower(0.80); }
     public void stop()    { setFlywheelPower(0); }
     public void intakeFW(){ setFlywheelPower(RobotConstants.FLY_SPEED_REVERSE); }
     public void intake()  { intake.setPower(1); }
