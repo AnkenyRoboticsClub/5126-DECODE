@@ -63,7 +63,7 @@ public class TestSubsystems extends LinearOpMode {
             telemetry.addLine("Use bumpers to move selection");
 
 
-            //Option 1: Drive train, Option 2: Shooting system, Option 3: Vision System
+            //Option 1: Drive train, Option 2: Shooting system, Option 3: Vision System, Option 4: Motor Test
             if (option == 1){//Drive Train
 
                 drive.driveFieldCentric(x, y, rx, heading, slow, fast, false);

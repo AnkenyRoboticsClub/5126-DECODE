@@ -111,10 +111,16 @@ public class AutoDrive {
     }
     
     public void driveReverse(){
-            fl.setPower(-.5);
-            bl.setPower(-.5);
-            fr.setPower(-.5);
-            br.setPower(-.5);
+            fl.setPower(-.3);
+            bl.setPower(-.3);
+            fr.setPower(-.3);
+            br.setPower(-.3);
+    }
+    public void driveForwardSim(){
+        fl.setPower(.5);
+        bl.setPower(.5);
+        fr.setPower(.5);
+        br.setPower(.5);
     }
     
     /** Turn in place to an absolute heading (deg, -180..180) using IMU (simple P). */

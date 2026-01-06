@@ -9,7 +9,7 @@ import org.firstinspires.ftc.teamcode.subsystem.ImuUtil;
 import org.firstinspires.ftc.teamcode.subsystem.Shooter;
 import org.firstinspires.ftc.teamcode.subsystem.VisionAlign;
 
-@Autonomous(name = "LL 2 Ball", group = "Auto")
+@Autonomous(name = "CloseAuto3B", group = "Auto")
 public class Ball2AutoTest extends LinearOpMode {
 
     @Override
@@ -34,7 +34,7 @@ public class Ball2AutoTest extends LinearOpMode {
         // 1. BLIND BACKUP (so LL sees tag)
         // ---------------------------
         drive.driveReverse();
-        sleep(1400);    // tune this (700–1200 ms works)
+        sleep(1300);    // tune this (700–1200 ms works)
         drive.stopAll();
 
         // ---------------------------
@@ -50,10 +50,12 @@ public class Ball2AutoTest extends LinearOpMode {
         // ---------------------------
         vision.aimAndApproachUntil(this);
 
+        sleep(700);
+
         // ---------------------------
         // 4. SHOOT ONE
         // ---------------------------
-        shooter.spinUp();
+        shooter.closeFW();
         sleep(1500);            // wait for flywheel to stabilize
 
         shooter.feedOne(this);
@@ -63,8 +65,6 @@ public class Ball2AutoTest extends LinearOpMode {
         // ---------------------------
         sleep(500);
         shooter.intake();
-        sleep(500);
-        shooter.intakeReverse();
         sleep(3000);
 
         shooter.feedOne(this);
