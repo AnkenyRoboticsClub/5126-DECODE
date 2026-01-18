@@ -41,6 +41,7 @@ public class TestSubsystems extends LinearOpMode {
 
             if (gamepad1.options) imu.resetYaw();
             double heading = imu.getHeadingRad();
+            shooter.update();
 
             boolean fast = gamepad1.right_trigger > 0.1;
             boolean slow = gamepad1.left_trigger  > 0.1;
@@ -90,10 +91,13 @@ public class TestSubsystems extends LinearOpMode {
             }
             else if (option == 2){
 
-                if (gamepad1.right_trigger > 0.1) shooter.spinUp();
+                if (gamepad1.right_trigger > 0.1) shooter.farShoot();
                 else                              shooter.stop();
 
-                if (gamepad1.left_trigger > 0.1) shooter.intakeFW();
+                if (gamepad1.left_trigger > 0.1) shooter.closeShoot();
+                else                              shooter.stop();
+
+                if (gamepad1.left_bumper) shooter.intakeFW();
 
                 if (gamepad1.b) shooter.intake();
                 else            shooter.stopIntake();
@@ -104,13 +108,16 @@ public class TestSubsystems extends LinearOpMode {
                 telemetry.addLine("Shooting System");
                 telemetry.addLine("========================================");
                 telemetry.addLine("Joysticks -");
-                telemetry.addLine("Left  Trigger  - Reverse Spin");
-                telemetry.addLine("Right Trigger  - Spin up fly wheel");
+                telemetry.addLine("Left  Trigger  - Close Shot");
+                telemetry.addLine("Right Trigger  - Far Shot");
+                telemetry.addLine("Left  Bumper  - Reverse Spin");
                 telemetry.addLine("Gampad A  - Feed a ball via servo");
                 telemetry.addLine("Gampad B  - Intake (If installed)");
                 telemetry.addLine("Gampad X  -");
                 telemetry.addLine("Gampad Y  -");
                 telemetry.addLine("Dpads - Power:(To be implemented)");
+                telemetry.addLine("========================================");
+                telemetry.addData("Flywheel RPM", shooter.getFlywheelRpm());
                 telemetry.update();
             }
             else if (option == 3){
@@ -173,7 +180,7 @@ public class TestSubsystems extends LinearOpMode {
                 if (gamepad1.y)  drive.bl.setPower(testPower);
                 else             drive.bl.setPower(0);
 
-                if (gamepad1.dpad_up)    shooter.spinUp();
+                if (gamepad1.dpad_up)    shooter.closeShoot();
                 else                     shooter.stop();    
 
                 if (gamepad1.dpad_down)  shooter.intake();

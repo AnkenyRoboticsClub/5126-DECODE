@@ -33,7 +33,7 @@ public class Ball3Far extends LinearOpMode {
         // ---------------------------
         // 1. SHOOT ONE
         // ---------------------------
-        shooter.spinUp();
+        shooter.farShoot();
         sleep(1800);            // wait for flywheel to stabilize
 
         shooter.feedOne(this);

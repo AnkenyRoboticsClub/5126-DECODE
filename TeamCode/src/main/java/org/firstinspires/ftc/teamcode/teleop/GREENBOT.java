@@ -46,12 +46,14 @@ public class GREENBOT extends LinearOpMode {
 
             // Drive
             drive.driveFieldCentric(x, y, rx, heading, slow, fast, false);
+            // Shooter
+            shooter.update();
 
 
             // ---- Shooter controls (GP2 example) ----
             // RT: spin up; LB: quick reverse pulse; A: flick one ring
-            if (gamepad2.right_trigger > 0.1) shooter.spinUp();
-            else if (gamepad2.left_trigger > 0.1) shooter.closeFW();
+            if (gamepad2.right_trigger > 0.1) shooter.farShoot();
+            else if (gamepad2.left_trigger > 0.1) shooter.closeShoot();
             else                              shooter.stop();
 
             if (gamepad2.right_bumper) shooter.intakeFW();// For temp human player feeding

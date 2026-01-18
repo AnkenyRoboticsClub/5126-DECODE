@@ -115,7 +115,7 @@ public class PedroTeleOp extends LinearOpMode {
 
     public void shootArtifacts() {
         // Put your shooting logic/functions here
-        shooter.spinUp();
+        shooter.closeShoot();
         sleep(2000);
         shooter.feedOne(this);
         shooter.stop();

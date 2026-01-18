@@ -55,7 +55,7 @@ public class LimeLightAuto extends LinearOpMode {
         // ---------------------------
         // 4. SHOOT ONE
         // ---------------------------
-        shooter.spinUp();
+        shooter.farShoot();
         sleep(800);            // wait for flywheel to stabilize
 
         shooter.feedOne(this);

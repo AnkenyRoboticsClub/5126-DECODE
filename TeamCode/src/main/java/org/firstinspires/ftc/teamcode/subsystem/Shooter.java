@@ -2,69 +2,128 @@ package org.firstinspires.ftc.teamcode.subsystem;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.common.RobotConstants;
 
 public class Shooter {
-    private final DcMotor fly;
+
+    private final DcMotorEx fly;      // <-- DcMotorEx so we can read velocity reliably
     private final Servo kick;
     private final DcMotor intake;
 
+    // RPM tracking
+    private final ElapsedTime rpmTimer = new ElapsedTime();
+    private double rpmFiltered = 0.0;
+    private double targetRpm = 0.0;
+
+    // Tuning
+    private static final double RPM_ALPHA = 0.25; // 0..1 (higher = less smoothing)
+    private static final double AT_SPEED_TOL_RPM = 50; // how close is "good enough"
+
     public Shooter(HardwareMap hw) {
-        fly  = hw.dcMotor.get(RobotConstants.M_FLY);
+        fly  = (DcMotorEx) hw.dcMotor.get(RobotConstants.M_FLY);
         kick = hw.servo.get(RobotConstants.S_KICK);
         intake = hw.dcMotor.get(RobotConstants.M_INTAKE);
 
-        // Match the direction you used before so +power = shoot
         fly.setDirection(DcMotorSimple.Direction.REVERSE);
         fly.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
+        // Encoder needed for velocity
+        fly.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         fly.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        
+
         intake.setDirection(DcMotorSimple.Direction.REVERSE);
 
-        // Safe default
         fly.setPower(0);
         intake.setPower(0);
         kick.setPosition(RobotConstants.KICK_RETRACT);
+
+        rpmTimer.reset();
+    }
+
+    /** Call this every loop (TeleOp/Auto) to keep rpmFiltered updated. */
+    public void update() {
+        double ticksPerSecond = fly.getVelocity(); // encoder ticks / second
+        double rpmNow = (ticksPerSecond / RobotConstants.TICKS_PER_MOTOR_REV) * 60.0;
+
+        // Exponential moving average filter
+        rpmFiltered = (RPM_ALPHA * rpmNow) + ((1.0 - RPM_ALPHA) * rpmFiltered);
+    }
+
+    /** Measured (filtered) flywheel RPM. */
+    public double getFlywheelRpm() {
+        return rpmFiltered;
+    }
+
+    /** Last commanded target RPM (what you WANT). */
+    public double getTargetRpm() {
+        return targetRpm;
+    }
+
+    /** True when we're close enough to the target to confidently shoot. */
+    public boolean atSpeed() {
+        return Math.abs(getFlywheelRpm() - targetRpm) <= AT_SPEED_TOL_RPM;
     }
 
     // ----- Flywheel controls -----
+
+    /** Velocity control in encoder ticks/sec based on requested RPM. */
+    public void setFlywheelRpm(double rpm) {
+        targetRpm = Math.max(0, rpm);
+        double ticksPerSecond = (targetRpm / 60.0) * RobotConstants.TICKS_PER_MOTOR_REV;
+
+        // Requires RUN_USING_ENCODER
+        fly.setVelocity(ticksPerSecond);
+    }
+
+    /** If you still want raw power control sometimes. */
     public void setFlywheelPower(double p) {
         if (p > 1) p = 1;
         if (p < -1) p = -1;
+        targetRpm = 0; // "no rpm target" when using power
         fly.setPower(p);
     }
-    double targetTicksPerSec = (RobotConstants.FLY_CLOSE_RPM / 60) * RobotConstants.TICKS_PER_MOTOR_REV;
-    public void spinUp()  { setFlywheelPower(RobotConstants.FLY_SPEED_SHOOT); }
-    public void closeFW() { setFlywheelPower(0.80); }
-    public void stop()    { setFlywheelPower(0); }
-    public void intakeFW(){ setFlywheelPower(RobotConstants.FLY_SPEED_REVERSE); }
+
+    public void stop() {
+        targetRpm = 0;
+        fly.setPower(0);
+    }
+
+    public void intakeFW() {
+        // reverse spinning; RPM target doesn’t really apply here
+        targetRpm = 0;
+        fly.setPower(RobotConstants.FLY_SPEED_REVERSE);
+    }
+
+    // Presets (edit these to match your robot)
+    public void closeShoot() { setFlywheelRpm(500); }
+    public void farShoot()   { setFlywheelRpm(1000); }
+
     public void intake()  { intake.setPower(1); }
     public void intakeReverse()  { intake.setPower(-1); }
-    public void stopIntake() {intake.setPower(0); }
+    public void stopIntake() { intake.setPower(0); }
 
     // ----- Kicker controls -----
     public void setKicker(boolean extended) {
         kick.setPosition(extended ? RobotConstants.KICK_EXTEND : RobotConstants.KICK_RETRACT);
     }
-    /** One flick: extend, wait, retract. */
+
     public void flick(LinearOpMode op) {
         setKicker(true);
         op.sleep(RobotConstants.KICK_TIME_MS);
         setKicker(false);
     }
 
-    // ----- Convenience combos -----
-    /** Typical feed sequence: (optionally spinUp before calling) */
     public void feedOne(LinearOpMode op) {
-        // assumes flywheel is already up to speed
         flick(op);
     }
 
-    public void closeShoot(){
-        //fly.setVelocity(targetTicksPerSec);
+    private void spinUpAndWait(Shooter shooter, double targetRpm, double timeoutSec) {
+        shooter.setFlywheelRpm(targetRpm);
     }
 }

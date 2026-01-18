@@ -29,7 +29,7 @@ public class Shooting1 extends LinearOpMode {
         drive.driveReverse();
         sleep(1000);
         drive.stopAll();
-        shooter.spinUp();
+        shooter.closeShoot();
         sleep(1500);
         shooter.feedOne(this);
         shooter.stop();
