@@ -11,15 +11,18 @@ public class RobotConstants {
 
     // Shooter tuning
     public static final double FLY_SPEED_SHOOT   = 1.0;  // forward shoot speed
-    public static final double FLY_SPEED_REVERSE = -0.5; // gentle reverse for unjam
+    public static final double FLY_SPEED_REVERSE = -0.75; // gentle reverse for unjam
+
+    public static final double FLY_CLOSE_RPM = 200; //A guess
+    public static final double FLY_FAR_RPM = 1000; //A guess
 
     // Kicker positions (tune these!)
     public static final double KICK_RETRACT = -0.10; // Down / hidden position
     public static final double KICK_EXTEND  = 0.30; // Extended to eject balls
-    public static final long   KICK_TIME_MS = 250;  // How long to be extended for in ms
+    public static final long   KICK_TIME_MS = 100;  // How long to be extended for in ms
 
     // Nudge (“scootch”)
-    public static final double SCOOTCH_POWER       = 0.3;   // tune for more powerfull scootch
+    public static final double SCOOTCH_POWER       = 0.5;   // tune for more powerfull scootch
     public static final long   SCOOTCH_DURATION_MS = 200;   // tune for longer or shorter scootch
 
     // Motor names (edit if your config names change)

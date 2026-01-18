@@ -21,6 +21,7 @@ public class Shooter {
         // Match the direction you used before so +power = shoot
         fly.setDirection(DcMotorSimple.Direction.REVERSE);
         fly.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        fly.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         
         intake.setDirection(DcMotorSimple.Direction.REVERSE);
 
@@ -36,6 +37,7 @@ public class Shooter {
         if (p < -1) p = -1;
         fly.setPower(p);
     }
+    double targetTicksPerSec = (RobotConstants.FLY_CLOSE_RPM / 60) * RobotConstants.TICKS_PER_MOTOR_REV;
     public void spinUp()  { setFlywheelPower(RobotConstants.FLY_SPEED_SHOOT); }
     public void closeFW() { setFlywheelPower(0.80); }
     public void stop()    { setFlywheelPower(0); }
@@ -60,5 +62,9 @@ public class Shooter {
     public void feedOne(LinearOpMode op) {
         // assumes flywheel is already up to speed
         flick(op);
+    }
+
+    public void closeShoot(){
+        //fly.setVelocity(targetTicksPerSec);
     }
 }
