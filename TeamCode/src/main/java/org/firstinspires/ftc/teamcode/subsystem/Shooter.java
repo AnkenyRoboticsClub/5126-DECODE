@@ -7,8 +7,11 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
+import org.firstinspires.ftc.teamcode.common.InterpolatingMap;
 
 import org.firstinspires.ftc.teamcode.common.RobotConstants;
+
+import java.util.TreeMap;
 
 public class Shooter {
 
@@ -24,6 +27,11 @@ public class Shooter {
     // Tuning
     private static final double RPM_ALPHA = 0.25; // 0..1 (higher = less smoothing)
     private static final double AT_SPEED_TOL_RPM = 50; // how close is "good enough"
+
+    private final InterpolatingMap FlywheelMap = new InterpolatingMap();
+
+
+
 
     public Shooter(HardwareMap hw) {
         fly  = (DcMotorEx) hw.dcMotor.get(RobotConstants.M_FLY);
@@ -44,6 +52,9 @@ public class Shooter {
         kick.setPosition(RobotConstants.KICK_RETRACT);
 
         rpmTimer.reset();
+        //         (Distance, power/rpm)
+        FlywheelMap.put(24.0, 10.0);   // close shot
+        FlywheelMap.put(72.0, 26.0);   // far shot
     }
 
     /** Call this every loop (TeleOp/Auto) to keep rpmFiltered updated. */
@@ -125,5 +136,9 @@ public class Shooter {
 
     private void spinUpAndWait(Shooter shooter, double targetRpm, double timeoutSec) {
         shooter.setFlywheelRpm(targetRpm);
+    }
+
+    public double shootByDistance(double distance){
+        return FlywheelMap.get(distance);
     }
 }

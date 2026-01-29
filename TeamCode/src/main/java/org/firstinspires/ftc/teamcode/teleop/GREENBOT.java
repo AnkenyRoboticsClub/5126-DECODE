@@ -68,6 +68,8 @@ public class GREENBOT extends LinearOpMode {
             if (gamepad2.a) shooter.feedOne(this); // extend + retract
             
             if (gamepad1.a) vision.aimAndApproachStepRobotCentric();
+
+            if (gamepad2.b) shooter.shootByDistance(vision.getDistance());
             /*
             if (gamepad1.dpad_right) drive.nudgeRight();
             if (gamepad1.dpad_left)  drive.nudgeLeft();

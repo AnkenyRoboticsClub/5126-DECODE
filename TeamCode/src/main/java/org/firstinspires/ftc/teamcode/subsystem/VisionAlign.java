@@ -7,6 +7,8 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.robotcore.external.navigation.Pose3D;
+import org.firstinspires.ftc.robotcore.external.navigation.Position;
 import org.firstinspires.ftc.teamcode.common.RobotConstants;
 
 public class VisionAlign {
@@ -115,6 +117,30 @@ public class VisionAlign {
     }
 
     // ---------------------------- Math Helpers ----------------------------
+
+    public double getDistance() {
+        LLResult r = latest();
+        if (r == null || !r.isValid()) return -1;
+
+        java.util.List<FiducialResult> tags = r.getFiducialResults();
+        if (tags == null || tags.isEmpty()) return -1;
+
+        FiducialResult tag = tags.get(0);
+
+        // Tag position relative to the robot (robot-space)
+        Pose3D tagPoseRobot = tag.getTargetPoseRobotSpace();  // exists in the FTC Limelight API :contentReference[oaicite:1]{index=1}
+        if (tagPoseRobot == null) return -1;
+
+        Position p = tagPoseRobot.getPosition(); // :contentReference[oaicite:2]{index=2}
+
+        // NOTE: In FTC SDK, Position stores x/y/z in its DistanceUnit.
+        // Commonly these are meters when coming from Limelight Pose3D.
+        double x = p.x; // forward (meters)
+        double y = p.y; // right   (meters)
+
+        return Math.hypot(x, y); // ground distance (meters)
+    }
+
 
     private static double turnCmd(double tx) {
         if (Math.abs(tx) <= RobotConstants.LL_AIM_TOL_DEG) return 0;
