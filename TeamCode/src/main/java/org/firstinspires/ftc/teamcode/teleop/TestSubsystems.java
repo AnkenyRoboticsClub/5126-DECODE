@@ -30,6 +30,7 @@ public class TestSubsystems extends LinearOpMode {
         int option = 1;
         boolean prevLeftBumper  = false;
         boolean prevRightBumper = false;
+        double rpm = 0;
 
         waitForStart();
         if (isStopRequested()) return;
@@ -104,6 +105,27 @@ public class TestSubsystems extends LinearOpMode {
 
                 if (gamepad1.a) shooter.feedOne(this);
 
+                if (gamepad1.x){
+                    shooter.customShoot(rpm);
+                    if (shooter.flywheelAtSpeed()){
+                        shooter.feedOne(this);
+                    }
+                }
+
+                if (gamepad1.dpad_up) {
+                    rpm = rpm + 10.0;
+                    sleep(10);
+                }
+                if (gamepad1.dpad_down){
+                    rpm = rpm - 10.0;
+                    sleep(100);
+                }
+
+                if (gamepad1.y){
+                    double dis = vision.getDistance();
+                    shooter.shootByDistance(dis);
+                }
+
 
                 telemetry.addLine("Shooting System");
                 telemetry.addLine("========================================");
@@ -113,11 +135,13 @@ public class TestSubsystems extends LinearOpMode {
                 telemetry.addLine("Left  Bumper  - Reverse Spin");
                 telemetry.addLine("Gampad A  - Feed a ball via servo");
                 telemetry.addLine("Gampad B  - Intake (If installed)");
-                telemetry.addLine("Gampad X  -");
-                telemetry.addLine("Gampad Y  -");
+                telemetry.addLine("Gampad X  - Custom RPM shoot");
+                telemetry.addLine("Gampad Y  - Shoot By Distance");
                 telemetry.addLine("Dpads - Power:(To be implemented)");
                 telemetry.addLine("========================================");
                 telemetry.addData("Flywheel RPM", shooter.getFlywheelRpm());
+                telemetry.addData("CustomRPM", rpm);
+                telemetry.addData("Distance", vision.getDistance());
                 telemetry.update();
             }
             else if (option == 3){

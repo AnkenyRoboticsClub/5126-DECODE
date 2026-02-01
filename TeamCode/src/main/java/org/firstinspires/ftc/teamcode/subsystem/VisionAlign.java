@@ -137,7 +137,6 @@ public class VisionAlign {
         // Commonly these are meters when coming from Limelight Pose3D.
         double x = p.x; // forward (meters)
         double y = p.y; // right   (meters)
-
         return Math.hypot(x, y); // ground distance (meters)
     }
 

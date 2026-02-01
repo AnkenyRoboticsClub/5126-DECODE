@@ -5,6 +5,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.teamcode.common.InterpolatingMap;
@@ -29,6 +30,7 @@ public class Shooter {
     private static final double AT_SPEED_TOL_RPM = 50; // how close is "good enough"
 
     private final InterpolatingMap FlywheelMap = new InterpolatingMap();
+    PIDFCoefficients pid = new PIDFCoefficients(10, 3, 0, 12);
 
 
 
@@ -44,6 +46,7 @@ public class Shooter {
         // Encoder needed for velocity
         fly.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         fly.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        fly.setVelocityPIDFCoefficients(10, 3, 0, 12);
 
         intake.setDirection(DcMotorSimple.Direction.REVERSE);
 
@@ -53,8 +56,11 @@ public class Shooter {
 
         rpmTimer.reset();
         //         (Distance, power/rpm)
-        FlywheelMap.put(24.0, 10.0);   // close shot
-        FlywheelMap.put(72.0, 26.0);   // far shot
+        FlywheelMap.put(0.0, 670.0);
+        FlywheelMap.put(0.01, 670.0);   // close shot | 21in
+        FlywheelMap.put(0.041, 770);//Peak of mid triangle | 77in
+        FlywheelMap.put(0.88, 770); //TBH we just putting points in
+        FlywheelMap.put(0.475, 940.0);  // far shot | 116in
     }
 
     /** Call this every loop (TeleOp/Auto) to keep rpmFiltered updated. */
@@ -82,6 +88,10 @@ public class Shooter {
     }
 
     // ----- Flywheel controls -----
+    public boolean flywheelAtSpeed(){
+        return Math.abs(getFlywheelRpm() - targetRpm) <= AT_SPEED_TOL_RPM;
+    }
+
 
     /** Velocity control in encoder ticks/sec based on requested RPM. */
     public void setFlywheelRpm(double rpm) {
@@ -91,6 +101,8 @@ public class Shooter {
         // Requires RUN_USING_ENCODER
         fly.setVelocity(ticksPerSecond);
     }
+
+
 
     /** If you still want raw power control sometimes. */
     public void setFlywheelPower(double p) {
@@ -112,8 +124,10 @@ public class Shooter {
     }
 
     // Presets (edit these to match your robot)
-    public void closeShoot() { setFlywheelRpm(500); }
+    public void closeShoot() { setFlywheelRpm(670); }
     public void farShoot()   { setFlywheelRpm(1000); }
+
+    public void customShoot(double rpm) { setFlywheelRpm(rpm); }
 
     public void intake()  { intake.setPower(1); }
     public void intakeReverse()  { intake.setPower(-1); }
@@ -139,6 +153,7 @@ public class Shooter {
     }
 
     public double shootByDistance(double distance){
+        customShoot(FlywheelMap.get(distance));
         return FlywheelMap.get(distance);
     }
 }

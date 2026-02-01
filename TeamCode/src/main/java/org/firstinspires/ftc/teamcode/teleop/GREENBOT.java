@@ -3,7 +3,9 @@ package org.firstinspires.ftc.teamcode.teleop;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.hardware.lynx.LynxModule;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.teamcode.common.RobotConstants;
 import org.firstinspires.ftc.teamcode.subsystem.DriveTrain;
 import org.firstinspires.ftc.teamcode.subsystem.ImuUtil;
 import org.firstinspires.ftc.teamcode.subsystem.Shooter;
@@ -16,6 +18,8 @@ public class GREENBOT extends LinearOpMode {
     private ImuUtil imu;
     private Shooter shooter;
     private VisionAlign vision;
+    ElapsedTime timer = new ElapsedTime();
+
 
     @Override
     public void runOpMode() {
@@ -67,7 +71,21 @@ public class GREENBOT extends LinearOpMode {
 
             if (gamepad2.a) shooter.feedOne(this); // extend + retract
             
-            if (gamepad1.a) vision.aimAndApproachStepRobotCentric();
+            //if (gamepad1.a) vision.aimAndApproachStepRobotCentric();
+            if (gamepad1.a) vision.aimUntil(this);
+
+            if (gamepad2.y){
+                shooter.shootByDistance(vision.getDistance());
+                if (shooter.flywheelAtSpeed()){
+                    timer.reset();
+                    if (timer.seconds() < RobotConstants.KICK_TIME_MS) {
+                        shooter.feedOne(this);
+                    }
+                    while (timer.seconds() > (RobotConstants.KICK_TIME_MS)) {
+                        shooter.intake();
+                    }
+                }
+            }
 
             if (gamepad2.b) shooter.shootByDistance(vision.getDistance());
             /*
@@ -79,6 +97,7 @@ public class GREENBOT extends LinearOpMode {
             //if (gamepad2.right_bumper && gamepad1.right_bumper) liftRobot();
 
             telemetry.addData("Flywheel", gamepad2.right_trigger > 0.1 ? "ON" : "OFF");
+            telemetry.addData("Flywheel RPM", shooter.getFlywheelRpm());
             telemetry.addLine("--- DRIVE RPM ---");
             telemetry.addData("FL", "%.1f", drive.getRPM(drive.fl));
             telemetry.addData("FR", "%.1f", drive.getRPM(drive.fr));
