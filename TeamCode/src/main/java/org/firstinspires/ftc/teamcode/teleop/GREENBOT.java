@@ -54,28 +54,31 @@ public class GREENBOT extends LinearOpMode {
             shooter.update();
 
 
-            // ---- Shooter controls (GP2 example) ----
-            // RT: spin up; LB: quick reverse pulse; A: flick one ring
+            //Driver 1 ====================
+            if (gamepad1.left_bumper)  drive.assistLeft();
+            if (gamepad1.right_bumper) drive.assistRight();
+
+            //if (gamepad1.a) vision.aimAndApproachStepRobotCentric();
+            if (gamepad1.a) vision.aimUntil(this);
+            //=============================
+
+            //Driver 2 ====================
             if (gamepad2.right_trigger > 0.1) shooter.farShoot();
             else if (gamepad2.left_trigger > 0.1) shooter.closeShoot();
             else                              shooter.stop();
 
             if (gamepad2.right_bumper) shooter.intakeFW();// For temp human player feeding
             if (gamepad2.x) shooter.intakeReverse();
-            
+
             if (gamepad2.left_bumper) shooter.intake();
             else                      shooter.stopIntake();
 
-            if (gamepad1.left_bumper)  drive.assistLeft();
-            if (gamepad1.right_bumper) drive.assistRight();
-
             if (gamepad2.a) shooter.feedOne(this); // extend + retract
-            
-            //if (gamepad1.a) vision.aimAndApproachStepRobotCentric();
-            if (gamepad1.a) vision.aimUntil(this);
+            if (gamepad2.b) shooter.shootByDistance(vision.getDistance(), this);
 
             if (gamepad2.y){
-                shooter.shootByDistance(vision.getDistance());
+                shooter.shootByDistance(vision.getDistance(), this);
+                /*
                 if (shooter.flywheelAtSpeed()){
                     timer.reset();
                     if (timer.seconds() < RobotConstants.KICK_TIME_MS) {
@@ -85,16 +88,15 @@ public class GREENBOT extends LinearOpMode {
                         shooter.intake();
                     }
                 }
+                */
             }
-
-            if (gamepad2.b) shooter.shootByDistance(vision.getDistance());
+            //=============================
             /*
             if (gamepad1.dpad_right) drive.nudgeRight();
             if (gamepad1.dpad_left)  drive.nudgeLeft();
             if (gamepad1.dpad_up)    drive.nudgeForward();
             if (gamepad1.dpad_down)  drive.nudgeBack();
             */
-            //if (gamepad2.right_bumper && gamepad1.right_bumper) liftRobot();
 
             telemetry.addData("Flywheel", gamepad2.right_trigger > 0.1 ? "ON" : "OFF");
             telemetry.addData("Flywheel RPM", shooter.getFlywheelRpm());

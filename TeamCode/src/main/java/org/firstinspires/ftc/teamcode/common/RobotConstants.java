@@ -13,7 +13,7 @@ public class RobotConstants {
     public static final double FLY_SPEED_SHOOT   = 1.0;  // forward shoot speed
     public static final double FLY_SPEED_REVERSE = -0.75; // gentle reverse for unjam
 
-    public static final double FLY_CLOSE_RPM = 200; //A guess
+    public static final double FLY_CLOSE_RPM = 670; //A guess
     public static final double FLY_FAR_RPM = 1000; //A guess
 
     // Kicker positions (tune these!)
@@ -69,8 +69,8 @@ public class RobotConstants {
     public static final double LL_K_FORWARD   = 0.25;    // forward gain
 
     // Minimum motor power so robot “breaks static friction”
-    public static final double LL_MIN_TURN    = 0.15;
-    public static final double LL_MIN_FORWARD = 0.10;
+    public static final double LL_MIN_TURN    = 0.17;
+    public static final double LL_MIN_FORWARD = 0.20;
 
     // Maximum motor speeds for LL control
     public static final double LL_MAX_TURN    = 0.35;

@@ -106,15 +106,12 @@ public class TestSubsystems extends LinearOpMode {
                 if (gamepad1.a) shooter.feedOne(this);
 
                 if (gamepad1.x){
-                    shooter.customShoot(rpm);
-                    if (shooter.flywheelAtSpeed()){
-                        shooter.feedOne(this);
-                    }
+                    shooter.customShoot(rpm, this);
                 }
 
                 if (gamepad1.dpad_up) {
                     rpm = rpm + 10.0;
-                    sleep(10);
+                    sleep(100);
                 }
                 if (gamepad1.dpad_down){
                     rpm = rpm - 10.0;
@@ -122,8 +119,7 @@ public class TestSubsystems extends LinearOpMode {
                 }
 
                 if (gamepad1.y){
-                    double dis = vision.getDistance();
-                    shooter.shootByDistance(dis);
+                    shooter.shootByDistance(vision.getDistance(), this);
                 }
 
 
@@ -137,11 +133,12 @@ public class TestSubsystems extends LinearOpMode {
                 telemetry.addLine("Gampad B  - Intake (If installed)");
                 telemetry.addLine("Gampad X  - Custom RPM shoot");
                 telemetry.addLine("Gampad Y  - Shoot By Distance");
-                telemetry.addLine("Dpads - Power:(To be implemented)");
+                telemetry.addLine("Dpad Up   - Power +10 rpm");
+                telemetry.addLine("Dpad Down - Power -10 rpm");
                 telemetry.addLine("========================================");
-                telemetry.addData("Flywheel RPM", shooter.getFlywheelRpm());
-                telemetry.addData("CustomRPM", rpm);
-                telemetry.addData("Distance", vision.getDistance());
+                telemetry.addData("Flywheel RPM:", shooter.getFlywheelRpm());
+                telemetry.addData("CustomRPM:", rpm);
+                telemetry.addData("Distance:", vision.getDistance());
                 telemetry.update();
             }
             else if (option == 3){

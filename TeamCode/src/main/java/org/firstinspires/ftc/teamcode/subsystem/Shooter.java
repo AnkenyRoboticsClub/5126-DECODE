@@ -127,7 +127,14 @@ public class Shooter {
     public void closeShoot() { setFlywheelRpm(670); }
     public void farShoot()   { setFlywheelRpm(1000); }
 
-    public void customShoot(double rpm) { setFlywheelRpm(rpm); }
+    public void customShoot(double rpm, LinearOpMode op){
+        setFlywheelRpm(rpm);
+        if (flywheelAtSpeed()){
+            feedOne(op);
+            intake();
+            op.sleep(RobotConstants.KICK_TIME_MS);
+        }
+    }
 
     public void intake()  { intake.setPower(1); }
     public void intakeReverse()  { intake.setPower(-1); }
@@ -152,8 +159,8 @@ public class Shooter {
         shooter.setFlywheelRpm(targetRpm);
     }
 
-    public double shootByDistance(double distance){
-        customShoot(FlywheelMap.get(distance));
+    public double shootByDistance(double distance, LinearOpMode op){
+        customShoot(FlywheelMap.get(distance), op);
         return FlywheelMap.get(distance);
     }
 }

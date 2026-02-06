@@ -146,5 +146,86 @@ public class AutoDrive {
         while (a <= -180) a += 360;
         return a;
     }
-    
+
+    /** Drive straight (robot-centric) for inches at given power using encoders + IMU heading hold.
+     *  inches: +forward, -backward
+     *  maxPower: positive number (0..1)
+     */
+    public void driveStraightInchesHoldHeading(
+            LinearOpMode op,
+            ImuUtil imu,
+            double inches,
+            double maxPower,
+            double kP,
+            double maxTurn
+    ) {
+        resetDriveEncoders();
+
+        // Capture the heading you want to hold RIGHT NOW
+        double targetDeg = Math.toDegrees(imu.getHeadingRad());
+
+        int targetTicks = (int) Math.round(Math.abs(inches) * RobotConstants.TICKS_PER_INCH);
+        double direction = Math.signum(inches); // +1 forward, -1 backward
+
+        maxPower = Math.abs(maxPower); // we apply direction later
+
+        double minPower = 0.12;
+        double accelDist = 0.25;
+        double decelDist = 0.25;
+
+        while (op.opModeIsActive()) {
+            int current = averageAbsTicks();
+            if (current >= targetTicks) break;
+
+            double progress = (double) current / (double) targetTicks;
+
+            double commandedMag;
+            if (progress < accelDist) {
+                double scale = progress / accelDist;
+                commandedMag = lerp(minPower, maxPower, scale);
+            } else if (progress < 1.0 - decelDist) {
+                commandedMag = maxPower;
+            } else {
+                double scale = (1.0 - progress) / decelDist;
+                commandedMag = lerp(minPower, maxPower, scale);
+            }
+
+            // Base forward/back power
+            double y = commandedMag * direction;
+
+            // IMU heading correction
+            double currentDeg = Math.toDegrees(imu.getHeadingRad());
+            double error = angleWrapDeg(targetDeg - currentDeg);
+            double turn = clip(kP * error, -maxTurn, maxTurn);
+
+            // Mecanum robot-centric, x = 0, apply turn
+            // (This is the standard mix for forward/back + rotate)
+            double flp = y + turn;
+            double frp = y - turn;
+            double blp = y + turn;
+            double brp = y - turn;
+
+            // Normalize so nothing exceeds 1.0
+            double max = Math.max(Math.max(Math.abs(flp), Math.abs(frp)),
+                    Math.max(Math.abs(blp), Math.abs(brp)));
+            if (max > 1.0) {
+                flp /= max; frp /= max; blp /= max; brp /= max;
+            }
+
+            fl.setPower(flp);
+            fr.setPower(frp);
+            bl.setPower(blp);
+            br.setPower(brp);
+
+            op.idle();
+        }
+
+        stopAll();
+    }
+
+    private double clip(double v, double lo, double hi) {
+        return Math.max(lo, Math.min(hi, v));
+    }
+
+
 }
