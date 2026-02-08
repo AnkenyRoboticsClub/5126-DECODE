@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.subsystem;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
@@ -18,6 +19,7 @@ public class Shooter {
 
     private final DcMotorEx fly;      // <-- DcMotorEx so we can read velocity reliably
     private final Servo kick;
+    private final CRServo intakeServo;
     private final DcMotor intake;
 
     // RPM tracking
@@ -39,6 +41,8 @@ public class Shooter {
         fly  = (DcMotorEx) hw.dcMotor.get(RobotConstants.M_FLY);
         kick = hw.servo.get(RobotConstants.S_KICK);
         intake = hw.dcMotor.get(RobotConstants.M_INTAKE);
+        intakeServo = hw.crservo.get(RobotConstants.S_INTAKE);
+
 
         fly.setDirection(DcMotorSimple.Direction.REVERSE);
         fly.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -136,9 +140,15 @@ public class Shooter {
         }
     }
 
-    public void intake()  { intake.setPower(1); }
-    public void intakeReverse()  { intake.setPower(-1); }
-    public void stopIntake() { intake.setPower(0); }
+    public void intake()  {
+        intake.setPower(1);
+        intakeServo.setPower(1);
+    }
+    public void intakeReverse()  {
+        intake.setPower(-1);
+        intakeServo.setPower(-1);
+    }
+    public void stopIntake() { intake.setPower(0); intakeServo.setPower(1);}
 
     // ----- Kicker controls -----
     public void setKicker(boolean extended) {
