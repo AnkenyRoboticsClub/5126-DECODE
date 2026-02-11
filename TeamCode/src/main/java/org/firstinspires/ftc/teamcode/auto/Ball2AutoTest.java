@@ -37,28 +37,18 @@ public class Ball2AutoTest extends LinearOpMode {
         //sleep(1500);    // tune this (700–1200 ms works)
         //drive.stopAll();
         // Backup ~2ft while holding heading
-        drive.driveStraightInchesHoldHeading(this, imu, -24, 0.35, 0.015, 0.25);
-
-        // ---------------------------
-        // 2. AIM TO CENTER TAG
-        // ---------------------------
-        vision.aimUntil(this);
-
-        sleep(200);
-
-        // ---------------------------
-        // 3. BACK UP USING LL TARGET AREA
-        // (robot moves until ta reaches Constants.LL_TARGET_AREA)
-        // ---------------------------
-        vision.aimAndApproachUntil(this);
-
-        sleep(700);
-
+        drive.driveStraightInchesHoldHeading(this, imu, -6, 0.10, 0.05, 0.10);
+        sleep(550);
+        drive.turnToHeadingDegrees(this, imu, 0, 0.15, 1);
+        sleep(1700);
         // ---------------------------
         // 4. SHOOT ONE
         // ---------------------------
-        shooter.closeShoot();
-        sleep(1500);            // wait for flywheel to stabilize
+        telemetry.addData("Distance", vision.getDistance());
+        //shooter.shootByDistance(vision.getDistance(), this);
+        shooter.customShoot(630, this);
+        sleep(2000);            // wait for flywheel to stabilize
+        telemetry.addData("RPM:", shooter.getFlywheelRpm());
 
         shooter.feedOne(this);
 

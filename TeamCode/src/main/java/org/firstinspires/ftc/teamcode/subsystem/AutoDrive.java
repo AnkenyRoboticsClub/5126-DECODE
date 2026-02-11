@@ -134,8 +134,8 @@ public class AutoDrive {
             if (turn >  maxPower) turn =  maxPower;
             if (turn < -maxPower) turn = -maxPower;
     
-            fl.setPower( turn); bl.setPower( turn);
-            fr.setPower(-turn); br.setPower(-turn);
+            fl.setPower( -turn); bl.setPower( -turn);
+            fr.setPower(turn); br.setPower(turn);
             op.idle();
         }
         stopAll();
@@ -169,7 +169,7 @@ public class AutoDrive {
 
         maxPower = Math.abs(maxPower); // we apply direction later
 
-        double minPower = 0.12;
+        double minPower = 0.20;
         double accelDist = 0.25;
         double decelDist = 0.25;
 
@@ -193,10 +193,14 @@ public class AutoDrive {
             // Base forward/back power
             double y = commandedMag * direction;
 
+
             // IMU heading correction
             double currentDeg = Math.toDegrees(imu.getHeadingRad());
-            double error = angleWrapDeg(targetDeg - currentDeg);
-            double turn = clip(kP * error, -maxTurn, maxTurn);
+            double error = angleWrapDeg(currentDeg - targetDeg);
+            double rawTurn = kP * error;
+            double turnLimit = Math.min(maxTurn, Math.abs(y) * 0.6);
+            double turn = clip(rawTurn, -turnLimit, turnLimit);
+
 
             // Mecanum robot-centric, x = 0, apply turn
             // (This is the standard mix for forward/back + rotate)
@@ -216,6 +220,12 @@ public class AutoDrive {
             fr.setPower(frp);
             bl.setPower(blp);
             br.setPower(brp);
+
+            op.telemetry.addData("targetDeg", targetDeg);
+            op.telemetry.addData("currentDeg", currentDeg);
+            op.telemetry.addData("error", error);
+            op.telemetry.addData("turn", turn);
+            op.telemetry.update();
 
             op.idle();
         }

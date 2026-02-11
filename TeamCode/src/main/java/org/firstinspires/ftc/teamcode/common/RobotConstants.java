@@ -35,7 +35,7 @@ public class RobotConstants {
     public static final String S_KICK = "kickServo";
     public static final String M_INTAKE = "motorI";
 
-    public static final String S_INTAKE = "servol";
+    public static final String S_INTAKE = "servoI";
 
     public static final String PINPOINT = "pinpoint";
     

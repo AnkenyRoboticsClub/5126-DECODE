@@ -148,7 +148,7 @@ public class Shooter {
         intake.setPower(-1);
         intakeServo.setPower(-1);
     }
-    public void stopIntake() { intake.setPower(0); intakeServo.setPower(1);}
+    public void stopIntake() { intake.setPower(0); intakeServo.setPower(0);}
 
     // ----- Kicker controls -----
     public void setKicker(boolean extended) {
