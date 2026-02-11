@@ -59,7 +59,7 @@ public class GREENBOT extends LinearOpMode {
             if (gamepad1.right_bumper) drive.assistRight();
 
             //if (gamepad1.a) vision.aimAndApproachStepRobotCentric();
-            if (gamepad1.a) vision.aimUntil(this);
+            if (gamepad1.a) vision.faceTagUntil(this);
             //=============================
 
             //Driver 2 ====================

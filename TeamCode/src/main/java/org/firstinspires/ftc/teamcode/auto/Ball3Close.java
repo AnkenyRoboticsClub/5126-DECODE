@@ -10,7 +10,7 @@ import org.firstinspires.ftc.teamcode.subsystem.Shooter;
 import org.firstinspires.ftc.teamcode.subsystem.VisionAlign;
 
 @Autonomous(name = "CloseAuto3B", group = "Auto")
-public class Ball2AutoTest extends LinearOpMode {
+public class Ball3Close extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -36,7 +36,7 @@ public class Ball2AutoTest extends LinearOpMode {
         //drive.driveReverse();
         //sleep(1500);    // tune this (700–1200 ms works)
         //drive.stopAll();
-        // Backup ~2ft while holding heading
+        // Backup while holding heading
         drive.driveStraightInchesHoldHeading(this, imu, -6, 0.10, 0.05, 0.10);
         sleep(550);
         drive.turnToHeadingDegrees(this, imu, 0, 0.15, 1);

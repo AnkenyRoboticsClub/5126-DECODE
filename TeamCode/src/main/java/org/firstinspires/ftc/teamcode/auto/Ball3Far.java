@@ -33,6 +33,8 @@ public class Ball3Far extends LinearOpMode {
         // ---------------------------
         // 1. SHOOT ONE
         // ---------------------------
+        vision.faceTagUntil(this);
+        sleep(1500);
         shooter.farShoot();
         sleep(1800);            // wait for flywheel to stabilize
 

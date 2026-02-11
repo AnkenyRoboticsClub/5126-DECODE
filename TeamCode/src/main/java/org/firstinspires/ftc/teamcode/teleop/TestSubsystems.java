@@ -169,7 +169,7 @@ public class TestSubsystems extends LinearOpMode {
                     }
                 }
 
-                if (gamepad1.a) vision.aimStepRobotCentric();
+                if (gamepad1.a) vision.faceTagUntil(this);
                 if (gamepad1.b) vision.aimAndApproachStepRobotCentric();
 
                 telemetry.addLine("Vison System");

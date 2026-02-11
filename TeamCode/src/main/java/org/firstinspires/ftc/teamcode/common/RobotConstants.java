@@ -89,4 +89,7 @@ public class RobotConstants {
     // Auto alignment timeouts
     public static final double LL_ALIGN_TIMEOUT_S    = 2.0;
     public static final double LL_APPROACH_TIMEOUT_S = 3.0;
+
+    double limelightLensHeightInches = 10.53;
+    double goalHeightInches = 29.5;
 }

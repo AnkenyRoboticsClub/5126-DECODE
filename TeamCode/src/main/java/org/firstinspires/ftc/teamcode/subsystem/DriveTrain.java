@@ -104,7 +104,7 @@ public class DriveTrain {
     public double getRPM(DcMotorEx motor) {
         double tps = motor.getVelocity();      // ticks/second
         if (Double.isNaN(tps)) tps = 0.0;      // safety
-            return (tps * 60.0) / TICKS_PER_REV;   // convert to RPM
+        return (tps * 60.0) / TICKS_PER_REV;   // convert to RPM
     }
     
     public void testDrive() {

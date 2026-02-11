@@ -38,6 +38,55 @@ public class VisionAlign {
         return limelight.getLatestResult();
     }
 
+    // Rotate ONLY until the robot is facing the tag (using robot-space pose, not tx)
+    public boolean faceTagStepRobotCentric() {
+        LLResult r = latest();
+        if (r == null || !r.isValid()) {
+            drive.stopAll();
+            return false;
+        }
+
+        java.util.List<FiducialResult> tags = r.getFiducialResults();
+        if (tags == null || tags.isEmpty()) {
+            drive.stopAll();
+            return false;
+        }
+
+        FiducialResult tag = tags.get(0);
+        Pose3D tagPoseRobot = tag.getTargetPoseRobotSpace();
+        if (tagPoseRobot == null) {
+            drive.stopAll();
+            return false;
+        }
+
+        Position p = tagPoseRobot.getPosition();
+
+        // Limelight FTC convention is typically:
+        // x = forward, y = right (units usually meters)
+        double x = p.x;
+        double y = p.y;
+
+        // Bearing to the tag in robot frame (radians -> degrees)
+        double bearingDeg = Math.toDegrees(Math.atan2(y, x));
+        //If turning weird, add (-) to the y
+
+        double turn = turnCmd(bearingDeg);
+        drive.driveRobot(0, 0, turn);
+
+        return Math.abs(bearingDeg) <= RobotConstants.LL_AIM_TOL_DEG;
+    }
+
+    public boolean faceTagUntil(LinearOpMode op) {
+        ElapsedTime t = new ElapsedTime();
+        while (op.opModeIsActive() && t.seconds() < RobotConstants.LL_ALIGN_TIMEOUT_S) {
+            if (faceTagStepRobotCentric()) break;
+            op.idle();
+        }
+        drive.stopAll();
+        return true;
+    }
+
+
     // ---------------------------- TeleOp step functions ----------------------------
 
     public boolean aimStepRobotCentric() { //rotates the robot to center the tag horizontally
@@ -115,7 +164,6 @@ public class VisionAlign {
         int id = getTagId();
         return motifFromTag(id);
     }
-
     // ---------------------------- Math Helpers ----------------------------
 
     public double getDistance() {
